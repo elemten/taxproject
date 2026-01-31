@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fbfcfe"/>
+      <stop offset="1" stop-color="#eef2f7"/>
+    </linearGradient>
+    <radialGradient id="goldGlow" cx="68%" cy="30%" r="60%">
+      <stop offset="0" stop-color="#b89b2d" stop-opacity="0.20"/>
+      <stop offset="1" stop-color="#b89b2d" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#0b1220" flood-opacity="0.10"/>
+    </filter>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#b89b2d"/>
+      <stop offset="1" stop-color="#d6c067"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="675" fill="url(#bg)"/>
+  <rect width="1200" height="675" fill="url(#goldGlow)"/>
+
+  <!-- Big card -->
+  <g filter="url(#shadow)">
+    <rect x="120" y="90" width="960" height="495" rx="32" fill="#ffffff" stroke="#e5e7eb"/>
+    <rect x="120" y="90" width="960" height="8" rx="4" fill="url(#gold)"/>
+  </g>
+
+  <!-- Left: stacked tiles (like the reference menu) -->
+  <g transform="translate(185,160)">
+    <rect x="0" y="0" width="300" height="355" rx="24" fill="#f6f7f9" stroke="#e5e7eb"/>
+    <g>
+      <rect x="26" y="28" width="248" height="54" rx="16" fill="#b89b2d" opacity="0.90"/>
+      <rect x="26" y="98" width="248" height="54" rx="16" fill="#b89b2d" opacity="0.80"/>
+      <rect x="26" y="168" width="248" height="54" rx="16" fill="#b89b2d" opacity="0.70"/>
+      <rect x="26" y="238" width="248" height="54" rx="16" fill="#b89b2d" opacity="0.60"/>
+      <rect x="26" y="308" width="248" height="54" rx="16" fill="#b89b2d" opacity="0.50"/>
+    </g>
+  </g>
+
+  <!-- Right: laptop + chart + document -->
+  <g transform="translate(540,150)" opacity="0.95">
+    <!-- Screen -->
+    <rect x="0" y="0" width="460" height="260" rx="28" fill="#f6f7f9" stroke="#e5e7eb"/>
+    <rect x="40" y="44" width="220" height="14" rx="7" fill="#111827" opacity="0.08"/>
+    <rect x="40" y="72" width="160" height="12" rx="6" fill="#111827" opacity="0.06"/>
+    <path d="M70 208 L150 150 L210 178 L280 120 L370 156" fill="none" stroke="#b89b2d" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="150" cy="150" r="7" fill="#b89b2d"/>
+    <circle cx="210" cy="178" r="7" fill="#b89b2d"/>
+    <circle cx="280" cy="120" r="7" fill="#b89b2d"/>
+    <circle cx="370" cy="156" r="7" fill="#b89b2d"/>
+
+    <!-- Base -->
+    <rect x="80" y="268" width="300" height="26" rx="13" fill="#111827" opacity="0.06"/>
+
+    <!-- Side doc -->
+    <rect x="330" y="40" width="120" height="200" rx="22" fill="#ffffff" stroke="#e5e7eb"/>
+    <rect x="350" y="80" width="80" height="12" rx="6" fill="#111827" opacity="0.08"/>
+    <rect x="350" y="108" width="60" height="10" rx="5" fill="#111827" opacity="0.06"/>
+    <rect x="350" y="132" width="74" height="10" rx="5" fill="#111827" opacity="0.06"/>
+  </g>
+
+  <!-- Bottom: soft divider block -->
+  <g opacity="0.6">
+    <rect x="185" y="535" width="815" height="34" rx="17" fill="#111827" opacity="0.05"/>
+  </g>
+</svg>
+
