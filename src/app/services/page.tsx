@@ -32,7 +32,7 @@ export default function ServicesPage() {
               <Link
                 key={s.href}
                 href={s.href}
-                className="flex items-center justify-between rounded-[--radius-md] bg-brand px-6 py-5 text-base font-semibold text-brand-foreground shadow-sm transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="flex items-center justify-between rounded-full bg-brand px-6 py-5 text-base font-semibold text-brand-foreground shadow-sm transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <span>{s.title}</span>
                 <ArrowRight className="size-5" aria-hidden="true" />
@@ -74,7 +74,7 @@ export default function ServicesPage() {
                 </Link>
                 <a
                   href={`tel:${site.phone}`}
-                  className="text-sm font-semibold text-muted-foreground hover:text-foreground"
+                  className="inline-flex h-11 items-center justify-center rounded-full border border-border bg-white px-6 text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-muted"
                 >
                   Call {site.phone}
                 </a>

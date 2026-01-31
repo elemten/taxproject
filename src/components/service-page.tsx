@@ -29,7 +29,7 @@ export function ServicePage({
     <div className="container-page py-14 sm:py-20">
       <div className="grid gap-10">
         <div className="space-y-4">
-          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
             Services
           </p>
           <h1 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">

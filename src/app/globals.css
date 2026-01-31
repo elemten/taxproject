@@ -9,6 +9,7 @@
   --brand: #b89b2d;
   --brand-foreground: #ffffff;
   --ring: rgba(184, 155, 45, 0.35);
+  --brand-rgb: 184, 155, 45;
 }
 
 @theme inline {
@@ -48,7 +49,7 @@ body {
   }
 
   .surface {
-    @apply rounded-[--radius-lg] border bg-white shadow-sm;
+    @apply rounded-[--radius-lg] border bg-muted shadow-sm;
   }
 
   .surface-solid {

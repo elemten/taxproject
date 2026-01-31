@@ -41,7 +41,7 @@ export default function AboutPage() {
                 </Link>
                 <a
                   href={`tel:${site.phone}`}
-                  className="text-sm font-semibold text-muted-foreground hover:text-foreground"
+                  className="inline-flex h-11 items-center justify-center rounded-full border border-border bg-white px-6 text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-muted"
                 >
                   Call {site.phone}
                 </a>
@@ -88,7 +88,7 @@ export default function AboutPage() {
                 ]}
               />
               <TeamCard
-                name="Team Member (Placeholder)"
+                name="Priya Sharma"
                 role="Corporate Support"
                 points={[
                   "Year-end readiness support",
@@ -97,7 +97,7 @@ export default function AboutPage() {
                 ]}
               />
               <TeamCard
-                name="Team Member (Placeholder)"
+                name="Michael Chen"
                 role="Client Support"
                 points={[
                   "Scheduling and follow-ups",

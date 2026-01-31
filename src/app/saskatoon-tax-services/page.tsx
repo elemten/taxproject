@@ -55,7 +55,7 @@ export default function SaskatoonTaxServicesPage() {
             </Link>
             <Link
               href="/services"
-              className="inline-flex h-12 items-center justify-center rounded-full border bg-white px-6 text-sm font-semibold shadow-sm transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="inline-flex h-12 items-center justify-center rounded-full border border-border bg-white px-6 text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               Explore services
             </Link>

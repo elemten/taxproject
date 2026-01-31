@@ -65,7 +65,7 @@ export default function FAQPage() {
               <summary className="cursor-pointer select-none text-sm font-semibold">
                 {item.q}
               </summary>
-              <p className="mt-2 text-sm leading-7 text-muted-foreground">
+              <p className="mt-2 pt-2 text-sm leading-7 text-muted-foreground">
                 {item.a}
               </p>
             </details>

@@ -52,7 +52,7 @@ export function SiteHeader() {
               <Menu className="size-5" aria-hidden="true" />
               <span className="sr-only">Open menu</span>
             </summary>
-            <div className="absolute right-0 mt-2 w-[min(92vw,20rem)] overflow-hidden rounded-[--radius-lg] border bg-white shadow-lg">
+            <div className="absolute right-0 mt-2 w-[min(92vw,20rem)] origin-top-right overflow-hidden rounded-[--radius-lg] border bg-white shadow-lg transition-all duration-200 ease-out group-open:scale-100 group-open:opacity-100 scale-95 opacity-0">
               <div className="flex flex-col p-2">
                 {site.nav.map((item) => (
                   <Link
@@ -65,7 +65,7 @@ export function SiteHeader() {
                 ))}
                 <Link
                   href="/contact"
-                  className="mt-1 inline-flex h-11 items-center justify-center rounded-[--radius-md] bg-brand px-4 text-sm font-semibold text-brand-foreground hover:brightness-95"
+                  className="mt-1 inline-flex h-11 items-center justify-center rounded-full bg-brand px-4 text-sm font-semibold text-brand-foreground shadow-sm hover:brightness-95"
                 >
                   Contact Us
                 </Link>

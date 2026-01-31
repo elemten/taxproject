@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { site } from "@/lib/site";
 import { ServiceCard } from "@/components/service-card";
 import { LeadForm } from "@/components/lead-form";
@@ -10,27 +9,24 @@ import { BookingConsultationCard } from "@/components/booking-consultation-card"
 export default function Home() {
   return (
     <>
-      <section className="relative">
+      <section className="relative bg-muted">
         <div className="relative h-[560px] w-full overflow-hidden">
-          <Image
-            src="/placeholders/hero-office.svg"
-            alt="Professional consultation (placeholder)"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/35 to-black/10" />
+          {/* Light gradient overlay for subtle depth */}
+          <div className="absolute inset-0 bg-gradient-to-br from-white via-muted to-white" />
+          
+          {/* Subtle pattern/texture */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(184,155,45,0.08),transparent_50%)]" />
 
-          <div className="absolute inset-0">
+          <div className="relative h-full">
             <div className="container-page grid h-full items-center gap-10 lg:grid-cols-12">
-              <div className="max-w-2xl space-y-5 text-white lg:col-span-7">
+              <div className="max-w-2xl space-y-5 lg:col-span-7">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
                   Expert tax services
                 </p>
-                <h1 className="text-balance text-4xl font-semibold tracking-tight sm:text-5xl">
+                <h1 className="text-balance text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
                   Accurate & reliable tax filing for {site.locationShort}
                 </h1>
-                <p className="max-w-xl text-pretty text-sm leading-7 text-white/80 sm:text-base">
+                <p className="max-w-xl text-pretty text-sm leading-7 text-muted-foreground sm:text-base">
                   Personal tax, corporate tax, and estate management services —
                   with a clear checklist, careful review, and calm communication.
                 </p>
@@ -43,7 +39,7 @@ export default function Home() {
                   </Link>
                   <a
                     href={`tel:${site.phone}`}
-                    className="text-sm font-semibold text-white/85 hover:text-white"
+                    className="inline-flex h-11 items-center justify-center rounded-full border border-border bg-white px-6 text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-muted"
                   >
                     Call {site.phone}
                   </a>
@@ -52,26 +48,11 @@ export default function Home() {
 
               <div className="hidden lg:block lg:col-span-5 lg:justify-self-end">
                 <div className="relative">
-                  <BookingConsultationCard className="shadow-[0_24px_60px_-24px_rgba(0,0,0,0.55)]" />
+                  <BookingConsultationCard className="shadow-2xl" />
                 </div>
               </div>
             </div>
           </div>
-
-          <button
-            type="button"
-            className="absolute left-5 top-1/2 -translate-y-1/2 rounded-full border border-white/30 bg-black/20 p-3 text-white backdrop-blur transition-colors hover:bg-black/30"
-            aria-label="Previous slide (placeholder)"
-          >
-            <ChevronLeft className="size-5" aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            className="absolute right-5 top-1/2 -translate-y-1/2 rounded-full border border-white/30 bg-black/20 p-3 text-white backdrop-blur transition-colors hover:bg-black/30"
-            aria-label="Next slide (placeholder)"
-          >
-            <ChevronRight className="size-5" aria-hidden="true" />
-          </button>
         </div>
       </section>
 
@@ -182,7 +163,7 @@ export default function Home() {
                 ]}
               />
               <TeamCard
-                name="Team Member (Placeholder)"
+                name="Priya Sharma"
                 role="Corporate Support"
                 points={[
                   "Year-end readiness support",
@@ -191,7 +172,7 @@ export default function Home() {
                 ]}
               />
               <TeamCard
-                name="Team Member (Placeholder)"
+                name="Michael Chen"
                 role="Client Support"
                 points={[
                   "Scheduling and follow-ups",
@@ -228,7 +209,7 @@ export default function Home() {
                 </a>
                 <Link
                   href="/contact"
-                  className="inline-flex h-11 items-center justify-center rounded-full border bg-white px-6 text-sm font-semibold shadow-sm transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="inline-flex h-11 items-center justify-center rounded-full border border-border bg-white px-6 text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   Contact form
                 </Link>

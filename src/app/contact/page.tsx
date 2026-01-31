@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone, Clock } from "lucide-react";
 import { site } from "@/lib/site";
 import { SectionHeading } from "@/components/section-heading";
 import { LeadForm } from "@/components/lead-form";
@@ -46,15 +46,18 @@ export default function ContactPage() {
                   {site.email}
                 </a>
               </li>
-              <li className="text-xs">
-                <span className="text-muted-foreground">Hours: </span>
-                <span className="text-foreground/90">{site.hours}</span>
+              <li className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Clock className="size-4" aria-hidden="true" />
+                <span>{site.hours}</span>
               </li>
             </ul>
           </div>
 
           <div className="surface-solid p-6">
-            <p className="text-sm font-semibold">Service area</p>
+            <div className="flex items-center gap-2">
+              <MapPin className="size-4 text-brand" aria-hidden="true" />
+              <p className="text-sm font-semibold">Service area</p>
+            </div>
             <p className="mt-2 text-sm leading-7 text-muted-foreground">
               Serving Saskatoon and clients across {site.province}. Canada-only.
             </p>
