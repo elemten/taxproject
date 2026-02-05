@@ -8,8 +8,8 @@ export function StructuredData() {
     "@type": "AccountingService",
     name: site.name,
     url: baseUrl.toString(),
-    logo: new URL("/assets/logo.png", baseUrl).toString(),
-    image: new URL("/assets/navbar.png", baseUrl).toString(),
+    logo: new URL("/assets/newlogo.png", baseUrl).toString(),
+    image: new URL("/assets/newlogo.png", baseUrl).toString(),
     areaServed: [
       {
         "@type": "AdministrativeArea",

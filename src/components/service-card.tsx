@@ -26,12 +26,12 @@ export function ServiceCard({
   return (
     <div
       className={cn(
-        "group surface-solid overflow-hidden transition-transform hover:-translate-y-0.5",
+        "group surface-solid ring-1 ring-white/45 transition-all hover:-translate-y-1 hover:shadow-xl",
         className,
       )}
     >
       {imageSrc ? (
-        <div className="relative aspect-[16/9] w-full border-b bg-muted">
+        <div className="relative aspect-[16/9] w-full border-b border-white/45 bg-muted">
           <Image
             src={imageSrc}
             alt={imageAlt ?? title}
@@ -44,7 +44,7 @@ export function ServiceCard({
 
       <div className="space-y-4 p-6">
         {!imageSrc ? (
-          <div className="inline-flex size-11 items-center justify-center rounded-[--radius-md] border bg-white text-brand shadow-sm">
+          <div className="inline-flex size-11 items-center justify-center rounded-[--radius-lg] border bg-white/60 text-brand shadow-sm backdrop-blur">
             {icon}
           </div>
         ) : null}

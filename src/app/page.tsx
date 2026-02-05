@@ -9,13 +9,19 @@ import { BookingConsultationCard } from "@/components/booking-consultation-card"
 export default function Home() {
   return (
     <>
-      <section className="relative bg-muted">
+      <section className="relative bg-background">
         <div className="relative h-[560px] w-full overflow-hidden">
-          {/* Light gradient overlay for subtle depth */}
-          <div className="absolute inset-0 bg-gradient-to-br from-white via-muted to-white" />
-          
+          <Image
+            src="/images/site/hero-saskatoon.webp"
+            alt="Saskatoon, Saskatchewan winter morning skyline"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/45 to-transparent" />
           {/* Subtle pattern/texture */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(184,155,45,0.08),transparent_50%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(var(--brand-rgb),0.06),transparent_55%)]" />
 
           <div className="relative h-full">
             <div className="container-page grid h-full items-center gap-10 lg:grid-cols-12">
@@ -27,7 +33,7 @@ export default function Home() {
                   Accurate & reliable tax filing for {site.locationShort}
                 </h1>
                 <p className="max-w-xl text-pretty text-sm leading-7 text-muted-foreground sm:text-base">
-                  Personal tax, corporate tax, and estate management services —
+                  Personal tax, corporate tax, and estate planning services —
                   with a clear checklist, careful review, and calm communication.
                 </p>
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -39,7 +45,7 @@ export default function Home() {
                   </Link>
                   <a
                     href={`tel:${site.phone}`}
-                    className="inline-flex h-11 items-center justify-center rounded-full border border-border bg-white px-6 text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-muted"
+                    className="inline-flex h-11 items-center justify-center rounded-full bg-brand px-6 text-sm font-semibold text-brand-foreground shadow-sm transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     Call {site.phone}
                   </a>
@@ -56,7 +62,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-white">
+      <section className="bg-background">
         <div className="container-page py-14 sm:py-20">
           <div className="space-y-10">
             <div className="space-y-3">
@@ -73,24 +79,24 @@ export default function Home() {
                 title="Personal Tax"
                 description="Clean, checklist-driven filing with a calm, professional experience built for Saskatchewan clients."
                 href="/services/personal-tax"
-                imageSrc="/illustrations/personal-tax.svg"
-                imageAlt="Vector illustration for personal tax services"
+                imageSrc="/images/site/personal-tax.webp"
+                imageAlt="Personal tax preparation desk scene in Saskatchewan"
                 ctaLabel="READ MORE"
               />
               <ServiceCard
                 title="Corporate Tax"
                 description="A structured workflow to keep business documents organized, review-ready, and CRA-ready."
                 href="/services/corporate-tax"
-                imageSrc="/illustrations/corporate-tax.svg"
-                imageAlt="Vector illustration for corporate tax services"
+                imageSrc="/images/site/corporate-tax.webp"
+                imageAlt="Modern corporate desk scene for tax planning"
                 ctaLabel="READ MORE"
               />
               <ServiceCard
-                title="Estate Management"
+                title="Estate Planning"
                 description="Professional handling and coordination for estate-related tax needs with clear next steps."
-                href="/services/estate-management"
-                imageSrc="/illustrations/estate-management.svg"
-                imageAlt="Vector illustration for estate management services"
+                href="/services/estate-planning"
+                imageSrc="/images/site/estate-planning.webp"
+                imageAlt="Calm estate planning desk scene with binder and documents"
                 ctaLabel="READ MORE"
               />
             </div>
@@ -98,7 +104,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-muted">
+      <section className="bg-background">
         <div className="container-page py-14 sm:py-20">
           <div className="grid items-center gap-10 lg:grid-cols-12">
             <div className="space-y-6 lg:col-span-6">
@@ -110,7 +116,7 @@ export default function Home() {
               </h2>
               <p className="text-sm leading-7 text-muted-foreground sm:text-base">
                 At TrustEdge Tax Services, we focus on personal tax, corporate
-                tax, and estate management services — delivered with a clear,
+                tax, and estate planning services — delivered with a clear,
                 premium process.
               </p>
               <p className="text-sm leading-7 text-muted-foreground sm:text-base">
@@ -126,10 +132,10 @@ export default function Home() {
             </div>
             <div className="lg:col-span-6">
               <div className="surface-solid overflow-hidden">
-                <div className="relative aspect-[3/2] w-full bg-white">
+                <div className="relative aspect-[3/2] w-full bg-muted">
                   <Image
-                    src="/illustrations/about.svg"
-                    alt="Illustration representing TrustEdge Tax Services"
+                    src="/images/site/about-office.webp"
+                    alt="Clean modern workspace representing TrustEdge Tax Services"
                     fill
                     className="object-cover"
                   />
@@ -140,19 +146,19 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-white">
+      <section className="bg-background">
         <div className="container-page py-14 sm:py-20">
           <div className="space-y-10">
             <div className="text-center">
               <h2 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
-                Our <span className="text-brand">team</span>
+                Meet <span className="text-brand">{site.personName}</span>
               </h2>
               <p className="mt-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                Meet the experts behind TrustEdge
+                Your point of contact at TrustEdge
               </p>
             </div>
 
-            <div className="grid gap-6 lg:grid-cols-3">
+            <div className="mx-auto w-full max-w-md">
               <TeamCard
                 name={site.personName}
                 role="Tax Professional"
@@ -162,30 +168,12 @@ export default function Home() {
                   "Clear checklist-driven process",
                 ]}
               />
-              <TeamCard
-                name="Priya Sharma"
-                role="Corporate Support"
-                points={[
-                  "Year-end readiness support",
-                  "Document organization",
-                  "CRA-ready preparation process",
-                ]}
-              />
-              <TeamCard
-                name="Michael Chen"
-                role="Client Support"
-                points={[
-                  "Scheduling and follow-ups",
-                  "Document intake assistance",
-                  "Fast, friendly communication",
-                ]}
-              />
             </div>
           </div>
         </div>
       </section>
 
-      <section id="book" className="bg-muted">
+      <section id="book" className="bg-background">
         <div className="container-page py-14 sm:py-20">
           <div className="grid gap-10 lg:grid-cols-12">
             <div className="space-y-4 lg:col-span-6">
@@ -209,7 +197,7 @@ export default function Home() {
                 </a>
                 <Link
                   href="/contact"
-                  className="inline-flex h-11 items-center justify-center rounded-full border border-border bg-white px-6 text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="inline-flex h-11 items-center justify-center rounded-full bg-brand px-6 text-sm font-semibold text-brand-foreground shadow-sm transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   Contact form
                 </Link>

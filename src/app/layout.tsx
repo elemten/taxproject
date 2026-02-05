@@ -23,20 +23,20 @@ export const metadata: Metadata = {
     template: "%s | TrustEdge Tax Services",
   },
   description:
-    "Tax services in Saskatoon, Saskatchewan focused on personal tax, corporate tax, and estate management services.",
+    "Tax services in Saskatoon, Saskatchewan focused on personal tax, corporate tax, and estate planning services.",
   applicationName: "TrustEdge Tax Services",
   authors: [{ name: "TrustEdge Tax Services" }],
   creator: "TrustEdge Tax Services",
   icons: {
-    icon: [{ url: "/assets/logo.png", type: "image/png" }],
-    apple: [{ url: "/assets/logo.png", type: "image/png" }],
+    icon: [{ url: "/assets/newlogo.png", type: "image/png" }],
+    apple: [{ url: "/assets/newlogo.png", type: "image/png" }],
   },
   openGraph: {
     type: "website",
     title: "TrustEdge Tax Services",
     description:
-      "Tax services in Saskatoon, Saskatchewan focused on personal tax, corporate tax, and estate management services.",
-    images: [{ url: "/assets/navbar.png", width: 1173, height: 525 }],
+      "Tax services in Saskatoon, Saskatchewan focused on personal tax, corporate tax, and estate planning services.",
+    images: [{ url: "/assets/newlogo.png", width: 499, height: 539 }],
   },
 };
 
@@ -51,7 +51,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <StructuredData />
-        <div className="min-h-dvh bg-white">
+        <div className="min-h-dvh bg-background">
           <SiteHeader />
           <main>{children}</main>
           <SiteFooter />

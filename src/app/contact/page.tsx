@@ -7,7 +7,7 @@ import { LeadForm } from "@/components/lead-form";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Contact TrustEdge Tax Services in Saskatoon, Saskatchewan to book a consultation for personal tax, corporate tax, or estate management services.",
+    "Contact TrustEdge Tax Services in Saskatoon, Saskatchewan to book a consultation for personal tax, corporate tax, or estate planning services.",
 };
 
 export default function ContactPage() {

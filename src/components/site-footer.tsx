@@ -5,7 +5,14 @@ import { SiteLogo } from "@/components/site-logo";
 
 export function SiteFooter() {
   return (
-    <footer className="border-t bg-white">
+    <footer
+      className="border-t bg-brand text-brand-foreground"
+      style={{
+        ["--muted-foreground" as never]: "rgba(255,255,255,0.78)",
+        ["--border" as never]: "rgba(255,255,255,0.16)",
+        ["--ring" as never]: "rgba(255,255,255,0.30)",
+      }}
+    >
       <div className="container-page py-12">
         <div className="grid gap-10 md:grid-cols-3">
           <div className="space-y-4">

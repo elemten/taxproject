@@ -47,7 +47,7 @@ export function ServicePage({
             </Link>
             <Link
               href="/contact"
-              className="inline-flex h-12 items-center justify-center rounded-full border bg-white px-6 text-sm font-semibold shadow-sm transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="inline-flex h-12 items-center justify-center rounded-full bg-brand px-6 text-sm font-semibold text-brand-foreground shadow-sm transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               Contact us
             </Link>
@@ -59,7 +59,7 @@ export function ServicePage({
             <div className="relative aspect-[16/7] w-full bg-muted">
               <Image
                 src={imageSrc}
-                alt={imageAlt ?? `${title} image placeholder`}
+                alt={imageAlt ?? `${title} service photo`}
                 fill
                 className="object-cover"
                 priority
@@ -94,7 +94,7 @@ export function ServicePage({
               {included.map((item) => (
                 <div
                   key={item}
-                  className="rounded-[--radius-md] border bg-muted p-4 text-sm text-muted-foreground"
+                  className="surface p-4 text-sm text-muted-foreground"
                 >
                   <p className="font-medium text-foreground/90">{item}</p>
                 </div>
@@ -131,7 +131,7 @@ export function ServicePage({
               {faqs.map((item) => (
                 <details
                   key={item.q}
-                  className="rounded-[--radius-md] border bg-muted px-4 py-3"
+                  className="surface px-4 py-3"
                 >
                   <summary className="cursor-pointer select-none text-sm font-semibold">
                     {item.q}

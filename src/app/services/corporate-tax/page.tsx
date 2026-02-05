@@ -9,16 +9,16 @@ export const metadata: Metadata = {
 
 export default function CorporateTaxPage() {
   return (
-    <ServicePage
-      title="Corporate Tax"
-      intro="A structured process for business owners who want clarity, organization, and corporate filing support that feels premium and predictable."
-      imageSrc="/illustrations/corporate-tax.svg"
-      imageAlt="Vector illustration for corporate tax services"
-      whoFor={[
-        "Small business owners looking for a cleaner year-end process",
-        "Corporations that want CRA-ready document organization",
-        "Teams that prefer a checklist-driven workflow",
-      ]}
+      <ServicePage
+        title="Corporate Tax"
+        intro="A structured process for business owners who want clarity, organization, and corporate filing support that feels premium and predictable."
+        imageSrc="/images/site/corporate-tax.webp"
+        imageAlt="Modern corporate desk scene for tax planning"
+        whoFor={[
+          "Small business owners looking for a cleaner year-end process",
+          "Corporations that want CRA-ready document organization",
+          "Teams that prefer a checklist-driven workflow",
+        ]}
       included={[
         "Year-end intake checklist",
         "Document organization guidance",

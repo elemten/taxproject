@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
-      <section className="bg-muted">
+      <section className="bg-background">
         <div className="container-page py-14 sm:py-20">
           <div className="grid items-center gap-10 lg:grid-cols-12">
             <div className="space-y-6 lg:col-span-6">
@@ -25,7 +25,7 @@ export default function AboutPage() {
               </h1>
               <p className="text-sm leading-7 text-muted-foreground sm:text-base">
                 TrustEdge Tax Services focuses on personal tax, corporate tax,
-                and estate management services for Saskatchewan clients —
+                and estate planning services for Saskatchewan clients —
                 delivered with a calm, checklist-driven process.
               </p>
               <p className="text-sm leading-7 text-muted-foreground sm:text-base">
@@ -41,7 +41,7 @@ export default function AboutPage() {
                 </Link>
                 <a
                   href={`tel:${site.phone}`}
-                  className="inline-flex h-11 items-center justify-center rounded-full border border-border bg-white px-6 text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-muted"
+                  className="inline-flex h-11 items-center justify-center rounded-full bg-brand px-6 text-sm font-semibold text-brand-foreground shadow-sm transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
                   Call {site.phone}
                 </a>
@@ -50,10 +50,10 @@ export default function AboutPage() {
 
             <div className="lg:col-span-6">
               <div className="surface-solid overflow-hidden">
-                <div className="relative aspect-[3/2] w-full bg-white">
+                <div className="relative aspect-[3/2] w-full bg-muted">
                   <Image
-                    src="/illustrations/about.svg"
-                    alt="Illustration representing TrustEdge Tax Services"
+                    src="/images/site/about-office.webp"
+                    alt="Clean modern workspace representing TrustEdge Tax Services"
                     fill
                     className="object-cover"
                     priority
@@ -65,19 +65,19 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-white">
+      <section className="bg-background">
         <div className="container-page py-14 sm:py-20">
           <div className="space-y-10">
             <div className="text-center">
               <h2 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
-                Our <span className="text-brand">team</span>
+                Who you’ll work with
               </h2>
               <p className="mt-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                Meet the experts behind TrustEdge
+                A single, consistent point of contact
               </p>
             </div>
 
-            <div className="grid gap-6 lg:grid-cols-3">
+            <div className="mx-auto w-full max-w-md">
               <TeamCard
                 name={site.personName}
                 role="Tax Professional"
@@ -85,24 +85,6 @@ export default function AboutPage() {
                   "Client coordination and filing support",
                   "Saskatchewan-focused workflow",
                   "Clear checklist-driven process",
-                ]}
-              />
-              <TeamCard
-                name="Priya Sharma"
-                role="Corporate Support"
-                points={[
-                  "Year-end readiness support",
-                  "Document organization",
-                  "CRA-ready preparation process",
-                ]}
-              />
-              <TeamCard
-                name="Michael Chen"
-                role="Client Support"
-                points={[
-                  "Scheduling and follow-ups",
-                  "Document intake assistance",
-                  "Fast, friendly communication",
                 ]}
               />
             </div>

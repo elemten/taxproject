@@ -7,7 +7,7 @@ import { SectionHeading } from "@/components/section-heading";
 export const metadata: Metadata = {
   title: "Saskatoon Tax Services",
   description:
-    "Saskatoon tax services for personal tax, corporate tax, and estate management services. A clear checklist-driven process for Saskatchewan clients.",
+    "Saskatoon tax services for personal tax, corporate tax, and estate planning services. A clear checklist-driven process for Saskatchewan clients.",
   alternates: { canonical: "/saskatoon-tax-services" },
 };
 
@@ -41,7 +41,7 @@ export default function SaskatoonTaxServicesPage() {
             </p>
             <p>
               Our focus areas are personal tax, corporate tax, and estate
-              management services. If you’re unsure what fits, a short consult
+              planning services. If you’re unsure what fits, a short consult
               can clarify the next step.
             </p>
           </div>
@@ -55,7 +55,7 @@ export default function SaskatoonTaxServicesPage() {
             </Link>
             <Link
               href="/services"
-              className="inline-flex h-12 items-center justify-center rounded-full border border-border bg-white px-6 text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="inline-flex h-12 items-center justify-center rounded-full bg-brand px-6 text-sm font-semibold text-brand-foreground shadow-sm transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               Explore services
             </Link>
@@ -70,7 +70,7 @@ export default function SaskatoonTaxServicesPage() {
                 <Link
                   key={s.href}
                   href={s.href}
-                  className="flex items-center justify-between rounded-[--radius-md] border bg-white px-4 py-3 shadow-sm transition-colors hover:bg-muted"
+                  className="flex items-center justify-between rounded-[--radius-lg] border bg-white/65 px-4 py-3 shadow-sm backdrop-blur transition-colors hover:bg-white/80"
                 >
                   <span className="font-medium">{s.title}</span>
                   <ArrowRight className="size-4 text-muted-foreground" aria-hidden="true" />

@@ -16,7 +16,10 @@ export function BookingConsultationCard({
 
   return (
     <aside
-      className={cn("relative w-full max-w-[320px] overflow-hidden rounded-3xl bg-white p-6 shadow-xl", className)}
+      className={cn(
+        "surface-solid relative w-full max-w-[320px] p-6 shadow-xl backdrop-blur-xl",
+        className,
+      )}
       aria-label="Booking consultation preview"
     >
       {/* Decorative top accent */}
@@ -47,7 +50,7 @@ export function BookingConsultationCard({
               type="button"
               disabled
               aria-disabled="true"
-              className="inline-flex size-7 cursor-not-allowed items-center justify-center rounded-full bg-white text-muted-foreground shadow-sm"
+              className="inline-flex size-7 cursor-not-allowed items-center justify-center rounded-full bg-white/75 text-muted-foreground shadow-sm"
               aria-label="Previous month (preview)"
             >
               <ChevronLeft className="size-4" aria-hidden="true" />
@@ -61,7 +64,7 @@ export function BookingConsultationCard({
               type="button"
               disabled
               aria-disabled="true"
-              className="inline-flex size-7 cursor-not-allowed items-center justify-center rounded-full bg-white text-muted-foreground shadow-sm"
+              className="inline-flex size-7 cursor-not-allowed items-center justify-center rounded-full bg-white/75 text-muted-foreground shadow-sm"
               aria-label="Next month (preview)"
             >
               <ChevronRight className="size-4" aria-hidden="true" />
@@ -89,7 +92,7 @@ export function BookingConsultationCard({
                     "flex h-6 cursor-not-allowed items-center justify-center rounded-md text-[10px] font-semibold tabular-nums transition-colors",
                     isAvailable
                       ? "bg-brand/15 text-brand"
-                      : "bg-white text-muted-foreground",
+                      : "bg-white/75 text-muted-foreground",
                   )}
                   aria-label={
                     isAvailable

@@ -5,13 +5,13 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "FAQ",
   description:
-    "Frequently asked questions about tax services in Saskatoon, Saskatchewan — personal tax, corporate tax, and estate management services.",
+    "Frequently asked questions about tax services in Saskatoon, Saskatchewan — personal tax, corporate tax, and estate planning services.",
 };
 
 const faqs = [
   {
-    q: "Are you Canada-only (CRA) or US/IRS as well?",
-    a: "Canada-only. TrustEdge Tax Services is focused on Canadian tax needs and CRA-related workflows.",
+    q: "Do you handle CRA (Canada) cases only, or US/IRS too?",
+    a: "We focus on Canadian tax and CRA-related work, and we take on select CRA cases depending on scope and timelines. If your situation includes US/IRS or complex cross-border requirements, we’ll help you confirm the right next step.",
   },
   {
     q: "Do you serve only Saskatoon?",
@@ -22,12 +22,16 @@ const faqs = [
     a: "Book a consultation (placeholder on the homepage) or use the contact form. We’ll reply with next steps and a simple checklist.",
   },
   {
-    q: "Do you offer bookkeeping or payroll?",
-    a: "This mockup focuses on personal tax, corporate tax, and estate management services. Optional add-ons can be added later if needed.",
+    q: "Do you offer GST/HST, bookkeeping, or payroll?",
+    a: "GST/HST, bookkeeping, and payroll support is being added soon. In the meantime, we can work with the records you already have and keep the tax workflow organized — rest assured we’ll guide the next step.",
   },
   {
-    q: "Is this legal or financial advice?",
-    a: "No. The website content is general information and does not constitute legal, financial, or tax advice.",
+    q: "Can you work with a third-party bookkeeper or payroll provider?",
+    a: "Yes. We can coordinate with third-party bookkeeping and payroll providers to align records, timelines, and filing details.",
+  },
+  {
+    q: "Do you provide financial guidance or advice?",
+    a: "Yes — general financial guidance is often part of tax planning and helping you choose the next best step. For highly complicated situations, we may recommend speaking with a qualified professional (for example, a lawyer, CFP, or specialist) for comprehensive advice. Website content is shared as general information; recommendations become specific during an engagement.",
   },
 ] as const;
 
@@ -75,4 +79,3 @@ export default function FAQPage() {
     </div>
   );
 }
-

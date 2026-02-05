@@ -21,8 +21,8 @@ export const site = {
         "Practical corporate filing support and year-end readiness with a process designed to keep you organized and CRA-ready.",
     },
     {
-      title: "Estate Management",
-      href: "/services/estate-management",
+      title: "Estate Planning",
+      href: "/services/estate-planning",
       description:
         "Guidance and coordination for estate-related tax needs with a calm, structured approach and careful attention to detail.",
     },

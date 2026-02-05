@@ -21,7 +21,7 @@ export function LeadForm({ title, subtitle, className }: LeadFormProps) {
   return (
     <form
       className={cn(
-        "relative overflow-hidden rounded-3xl bg-white p-8 shadow-xl",
+        "surface-solid relative overflow-hidden p-8 shadow-xl",
         className,
       )}
       onSubmit={(e) => {
@@ -124,9 +124,9 @@ function Field({
   as?: "input" | "textarea";
   placeholder?: string;
   className?: string;
-}) {
+  }) {
   const inputClass =
-    "mt-2 w-full rounded-xl border border-border bg-white px-4 py-3.5 text-sm text-foreground shadow-sm outline-none transition-all duration-200 placeholder:text-muted-foreground/50 focus-visible:border-brand/40 focus-visible:bg-white focus-visible:shadow-md focus-visible:ring-2 focus-visible:ring-ring";
+    "mt-2 w-full rounded-[--radius-md] border border-border bg-white/70 px-4 py-3.5 text-sm text-foreground shadow-sm outline-none transition-all duration-200 placeholder:text-muted-foreground/50 focus-visible:border-brand/35 focus-visible:bg-white/80 focus-visible:shadow-md focus-visible:ring-2 focus-visible:ring-ring";
 
   return (
     <label

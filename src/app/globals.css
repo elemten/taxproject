@@ -1,15 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #111827;
-  --muted: #f6f7f9;
-  --muted-foreground: #6b7280;
-  --border: #e5e7eb;
-  --brand: #b89b2d;
+  --background: #febf04;
+  --foreground: #000000;
+  --muted: #f5f8ff;
+  --muted-foreground: rgba(0, 0, 0, 0.72);
+  --border: rgba(6, 43, 104, 0.06);
+  --brand: #062b68;
   --brand-foreground: #ffffff;
-  --ring: rgba(184, 155, 45, 0.35);
-  --brand-rgb: 184, 155, 45;
+  --ring: rgba(6, 43, 104, 0.28);
+  --brand-rgb: 6, 43, 104;
+  --surface-radius: 36px;
+  --surface-bg: rgba(245, 248, 255, 0.84);
+  --surface-shadow:
+    0 28px 90px -70px rgba(6, 43, 104, 0.72),
+    0 10px 30px -24px rgba(0, 0, 0, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 @theme inline {
@@ -21,15 +27,19 @@
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
   --color-ring: var(--ring);
-  --radius-lg: 18px;
-  --radius-md: 14px;
-  --radius-sm: 12px;
+  --radius-lg: 30px;
+  --radius-md: 22px;
+  --radius-sm: 16px;
+  --radius-xl: var(--surface-radius);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 body {
-  background: var(--background);
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.22), transparent 55%),
+    radial-gradient(circle at 78% 24%, rgba(var(--brand-rgb), 0.10), transparent 58%),
+    var(--background);
   color: var(--foreground);
 }
 
@@ -49,11 +59,23 @@ body {
   }
 
   .surface {
-    @apply rounded-[--radius-lg] border bg-muted shadow-sm;
+    @apply border;
+    border-radius: var(--surface-radius);
+    background: var(--surface-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: var(--surface-shadow);
+    overflow: hidden;
   }
 
   .surface-solid {
-    @apply rounded-[--radius-lg] border bg-white shadow-sm;
+    @apply border;
+    border-radius: var(--surface-radius);
+    background: var(--surface-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: var(--surface-shadow);
+    overflow: hidden;
   }
 
   .link-muted {

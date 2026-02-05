@@ -9,7 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/services",
     "/services/personal-tax",
     "/services/corporate-tax",
-    "/services/estate-management",
+    "/services/estate-planning",
     "/about",
     "/faq",
     "/contact",
@@ -23,4 +23,3 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: path === "/" ? 1 : 0.7,
   }));
 }
-

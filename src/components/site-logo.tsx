@@ -23,20 +23,30 @@ export function SiteLogo({
       aria-label="TrustEdge Tax Services"
     >
       {isNavbar ? (
-        <Image
-          src="/assets/navbar.png"
-          alt="TrustEdge Saskatchewan Tax Services"
-          width={520}
-          height={233}
-          priority={priority}
-          sizes="(max-width: 768px) 220px, 360px"
-          className="h-10 w-auto sm:h-11 md:h-12"
-        />
+        <>
+          <Image
+            src="/assets/newlogo.png"
+            alt="TrustEdge Tax Services"
+            width={64}
+            height={64}
+            priority={priority}
+            sizes="48px"
+            className="h-10 w-10 object-contain sm:h-11 sm:w-11 md:h-12 md:w-12"
+          />
+          <span className="leading-tight">
+            <span className="block text-sm font-semibold tracking-tight sm:text-base">
+              TrustEdge
+            </span>
+            <span className="block text-xs text-muted-foreground">
+              Tax Services
+            </span>
+          </span>
+        </>
       ) : (
         <>
           <Image
-            src="/assets/logo.png"
-            alt="TrustEdge Tax Services logo"
+            src="/assets/newlogo.png"
+            alt="TrustEdge Tax Services"
             width={44}
             height={44}
             priority={priority}

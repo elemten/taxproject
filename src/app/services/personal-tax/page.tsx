@@ -9,16 +9,16 @@ export const metadata: Metadata = {
 
 export default function PersonalTaxPage() {
   return (
-    <ServicePage
-      title="Personal Tax"
-      intro="A clean, organized approach to personal tax filing for individuals and families in Saskatoon and across Saskatchewan."
-      imageSrc="/illustrations/personal-tax.svg"
-      imageAlt="Vector illustration for personal tax services"
-      whoFor={[
-        "Individuals and families who want a straightforward filing process",
-        "Newcomers to Canada who want clarity on what’s needed",
-        "Clients with common slips and deductions who want an organized checklist",
-      ]}
+      <ServicePage
+        title="Personal Tax"
+        intro="A clean, organized approach to personal tax filing for individuals and families in Saskatoon and across Saskatchewan."
+        imageSrc="/images/site/personal-tax.webp"
+        imageAlt="Personal tax preparation desk scene in Saskatchewan"
+        whoFor={[
+          "Individuals and families who want a straightforward filing process",
+          "Newcomers to Canada who want clarity on what’s needed",
+          "Clients with common slips and deductions who want an organized checklist",
+        ]}
       included={[
         "Intake checklist and document review",
         "T1 preparation and filing (Canada)",

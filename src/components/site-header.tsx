@@ -29,7 +29,7 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <div className="border-b bg-white">
+      <div className="border-b bg-white/60 backdrop-blur-xl">
         <div className="container-page flex items-center justify-between py-3">
           <SiteLogo variant="navbar" priority />
 
@@ -48,17 +48,17 @@ export function SiteHeader() {
           </nav>
 
           <details className="group relative md:hidden">
-            <summary className="list-none rounded-full border bg-white p-2 shadow-sm transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+            <summary className="list-none rounded-full border bg-white/70 p-2 shadow-sm backdrop-blur transition-colors hover:bg-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
               <Menu className="size-5" aria-hidden="true" />
               <span className="sr-only">Open menu</span>
             </summary>
-            <div className="absolute right-0 mt-2 w-[min(92vw,20rem)] origin-top-right overflow-hidden rounded-[--radius-lg] border bg-white shadow-lg transition-all duration-200 ease-out group-open:scale-100 group-open:opacity-100 scale-95 opacity-0">
+            <div className="absolute right-0 mt-2 w-[min(92vw,20rem)] origin-top-right overflow-hidden rounded-[--radius-lg] border bg-white/70 shadow-lg backdrop-blur-xl transition-all duration-200 ease-out group-open:scale-100 group-open:opacity-100 scale-95 opacity-0">
               <div className="flex flex-col p-2">
                 {site.nav.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="rounded-[--radius-md] px-3 py-2 text-sm font-medium hover:bg-muted"
+                    className="rounded-[--radius-lg] px-3 py-2 text-sm font-medium hover:bg-white/60"
                   >
                     {item.title}
                   </Link>

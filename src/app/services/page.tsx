@@ -7,7 +7,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Personal tax, corporate tax, and estate management services for Saskatoon and Saskatchewan clients.",
+    "Personal tax, corporate tax, and estate planning services for Saskatoon and Saskatchewan clients.",
 };
 
 export default function ServicesPage() {
@@ -45,8 +45,8 @@ export default function ServicesPage() {
           <div className="surface-solid overflow-hidden">
             <div className="relative aspect-[16/9] w-full bg-muted">
               <Image
-                src="/illustrations/services.svg"
-                alt="Illustration representing service options and a modern process"
+                src="/images/site/services-overview.webp"
+                alt="Modern, minimal office interior representing tax service options"
                 fill
                 className="object-cover"
                 priority
@@ -74,7 +74,7 @@ export default function ServicesPage() {
                 </Link>
                 <a
                   href={`tel:${site.phone}`}
-                  className="inline-flex h-11 items-center justify-center rounded-full border border-border bg-white px-6 text-sm font-semibold text-foreground shadow-sm transition-colors hover:bg-muted"
+                  className="inline-flex h-11 items-center justify-center rounded-full bg-brand px-6 text-sm font-semibold text-brand-foreground shadow-sm transition-colors hover:brightness-95"
                 >
                   Call {site.phone}
                 </a>
