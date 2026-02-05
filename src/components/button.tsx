@@ -1,3 +1,6 @@
+"use client";
+
+import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import Link from "next/link";
@@ -9,7 +12,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-brand text-brand-foreground shadow-sm hover:brightness-95 hover:-translate-y-0.5",
+          "bg-brand text-brand-foreground shadow-sm hover:brightness-95",
         secondary:
           "bg-brand text-brand-foreground shadow-sm hover:brightness-95",
         outline:
@@ -50,18 +53,25 @@ export function Button({
   onFocus,
   onBlur,
 }: ButtonProps) {
+  const shouldReduceMotion = useReducedMotion();
   const classes = cn(buttonVariants({ variant, size }), className);
 
   if (href && !disabled) {
     return (
-      <Link href={href} className={classes}>
-        {children}
-      </Link>
+      <motion.div
+        whileHover={shouldReduceMotion || disabled ? {} : { scale: 1.02, y: -2 }}
+        whileTap={shouldReduceMotion || disabled ? {} : { scale: 0.98 }}
+        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+      >
+        <Link href={href} className={classes}>
+          {children}
+        </Link>
+      </motion.div>
     );
   }
 
   return (
-    <button 
+    <motion.button 
       className={classes} 
       type={type}
       disabled={disabled}
@@ -70,8 +80,11 @@ export function Button({
       onMouseLeave={onMouseLeave}
       onFocus={onFocus}
       onBlur={onBlur}
+      whileHover={shouldReduceMotion || disabled ? {} : { scale: 1.02, y: -2 }}
+      whileTap={shouldReduceMotion || disabled ? {} : { scale: 0.98 }}
+      transition={{ type: "spring", stiffness: 500, damping: 30 }}
     >
       {children}
-    </button>
+    </motion.button>
   );
 }

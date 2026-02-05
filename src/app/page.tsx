@@ -1,14 +1,21 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { motion, useReducedMotion } from "framer-motion";
 import { site } from "@/lib/site";
 import { ServiceCard } from "@/components/service-card";
 import { LeadForm } from "@/components/lead-form";
 import { TeamCard } from "@/components/team-card";
 import { BookingConsultationCard } from "@/components/booking-consultation-card";
+import { easing, staggerContainer } from "@/lib/animations";
 
 export default function Home() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <>
+      {/* Hero Section */}
       <section className="relative bg-background">
         <div className="relative h-[560px] w-full overflow-hidden">
           <Image
@@ -26,55 +33,101 @@ export default function Home() {
           <div className="relative h-full">
             <div className="container-page grid h-full items-center gap-10 lg:grid-cols-12">
               <div className="max-w-2xl space-y-5 lg:col-span-7">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand">
+                <motion.p
+                  className="text-xs font-semibold uppercase tracking-[0.2em] text-brand"
+                  initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2, ease: easing.easeOutExpo }}
+                >
                   Expert tax services
-                </p>
-                <h1 className="text-balance text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+                </motion.p>
+                <motion.h1
+                  className="text-balance text-4xl font-semibold tracking-tight text-foreground sm:text-5xl"
+                  initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3, ease: easing.easeOutExpo }}
+                >
                   Accurate & reliable tax filing for {site.locationShort}
-                </h1>
-                <p className="max-w-xl text-pretty text-sm leading-7 text-muted-foreground sm:text-base">
+                </motion.h1>
+                <motion.p
+                  className="max-w-xl text-pretty text-sm leading-7 text-muted-foreground sm:text-base"
+                  initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4, ease: easing.easeOutExpo }}
+                >
                   Personal tax, corporate tax, and estate planning services —
                   with a clear checklist, careful review, and calm communication.
-                </p>
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                  <Link
-                    href="/contact"
-                    className="inline-flex h-11 items-center justify-center rounded-full bg-brand px-6 text-sm font-semibold text-brand-foreground shadow-sm transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                </motion.p>
+                <motion.div
+                  className="flex flex-col gap-3 sm:flex-row sm:items-center"
+                  initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.5, ease: easing.easeOutExpo }}
+                >
+                  <motion.div
+                    whileHover={{ scale: shouldReduceMotion ? 1 : 1.02 }}
+                    whileTap={{ scale: shouldReduceMotion ? 1 : 0.98 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
                   >
-                    CONTACT US
-                  </Link>
-                  <a
+                    <Link
+                      href="/contact"
+                      className="inline-flex h-11 items-center justify-center rounded-full bg-brand px-6 text-sm font-semibold text-brand-foreground shadow-sm transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    >
+                      CONTACT US
+                    </Link>
+                  </motion.div>
+                  <motion.a
                     href={`tel:${site.phone}`}
                     className="inline-flex h-11 items-center justify-center rounded-full bg-brand px-6 text-sm font-semibold text-brand-foreground shadow-sm transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    whileHover={{ scale: shouldReduceMotion ? 1 : 1.02 }}
+                    whileTap={{ scale: shouldReduceMotion ? 1 : 0.98 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
                   >
                     Call {site.phone}
-                  </a>
-                </div>
+                  </motion.a>
+                </motion.div>
               </div>
 
               <div className="hidden lg:block lg:col-span-5 lg:justify-self-end">
-                <div className="relative">
-                  <BookingConsultationCard className="shadow-2xl" />
-                </div>
+                <BookingConsultationCard className="shadow-2xl" />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="bg-background">
+      {/* Services Section */}
+      <motion.section
+        className="bg-background"
+        initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+      >
         <div className="container-page py-14 sm:py-20">
           <div className="space-y-10">
-            <div className="space-y-3">
+            <motion.div
+              className="space-y-3"
+              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: easing.easeOutExpo }}
+            >
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                 Our services
               </p>
               <h2 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
                 Focused solutions for individuals, businesses, and families
               </h2>
-            </div>
+            </motion.div>
 
-            <div className="grid gap-6 lg:grid-cols-3">
+            <motion.div
+              className="grid gap-6 lg:grid-cols-3"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+              variants={shouldReduceMotion ? {} : staggerContainer}
+            >
               <ServiceCard
                 title="Personal Tax"
                 description="Clean, checklist-driven filing with a calm, professional experience built for Saskatchewan clients."
@@ -99,15 +152,22 @@ export default function Home() {
                 imageAlt="Calm estate planning desk scene with binder and documents"
                 ctaLabel="READ MORE"
               />
-            </div>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
+      {/* About Section */}
       <section className="bg-background">
         <div className="container-page py-14 sm:py-20">
           <div className="grid items-center gap-10 lg:grid-cols-12">
-            <div className="space-y-6 lg:col-span-6">
+            <motion.div
+              className="space-y-6 lg:col-span-6"
+              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.7, ease: easing.easeOutExpo }}
+            >
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                 Our expertise in finance and taxation
               </p>
@@ -123,42 +183,83 @@ export default function Home() {
                 We keep the workflow simple: checklist, preparation, review, and
                 a clear next step. Built for Saskatoon and Saskatchewan clients.
               </p>
-              <Link
-                href="/contact"
-                className="inline-flex h-11 items-center justify-center rounded-full bg-brand px-6 text-sm font-semibold text-brand-foreground shadow-sm transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              <motion.div
+                whileHover={{ scale: shouldReduceMotion ? 1 : 1.02 }}
+                whileTap={{ scale: shouldReduceMotion ? 1 : 0.98 }}
+                transition={{ type: "spring", stiffness: 500, damping: 30 }}
               >
-                CONTACT US
-              </Link>
-            </div>
-            <div className="lg:col-span-6">
-              <div className="surface-solid overflow-hidden">
-                <div className="relative aspect-[3/2] w-full bg-muted">
-                  <Image
-                    src="/images/site/about-office.webp"
-                    alt="Clean modern workspace representing TrustEdge Tax Services"
-                    fill
-                    className="object-cover"
-                  />
+                <Link
+                  href="/contact"
+                  className="inline-flex h-11 items-center justify-center rounded-full bg-brand px-6 text-sm font-semibold text-brand-foreground shadow-sm transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                >
+                  CONTACT US
+                </Link>
+              </motion.div>
+            </motion.div>
+            <motion.div
+              className="lg:col-span-6"
+              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.7, delay: 0.2, ease: easing.easeOutExpo }}
+            >
+              <motion.div
+                className="surface-solid overflow-hidden"
+                whileHover={shouldReduceMotion ? {} : { scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              >
+                <div className="relative aspect-[3/2] w-full bg-muted overflow-hidden">
+                  <motion.div
+                    className="absolute inset-0"
+                    whileHover={shouldReduceMotion ? {} : { scale: 1.05 }}
+                    transition={{ duration: 0.6, ease: easing.easeOutExpo }}
+                  >
+                    <Image
+                      src="/images/site/about-office.webp"
+                      alt="Clean modern workspace representing TrustEdge Tax Services"
+                      fill
+                      className="object-cover"
+                    />
+                  </motion.div>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </section>
 
+      {/* Team Section */}
       <section className="bg-background">
         <div className="container-page py-14 sm:py-20">
-          <div className="space-y-10">
-            <div className="text-center">
+          <motion.div
+            className="space-y-10"
+            initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <motion.div
+              className="text-center"
+              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: easing.easeOutExpo }}
+            >
               <h2 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
                 Meet <span className="text-brand">{site.personName}</span>
               </h2>
               <p className="mt-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                 Your point of contact at TrustEdge
               </p>
-            </div>
+            </motion.div>
 
-            <div className="mx-auto w-full max-w-md">
+            <motion.div
+              className="mx-auto w-full max-w-md"
+              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2, ease: easing.easeOutExpo }}
+            >
               <TeamCard
                 name={site.personName}
                 role="Tax Professional"
@@ -168,15 +269,22 @@ export default function Home() {
                   "Clear checklist-driven process",
                 ]}
               />
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
+      {/* Booking Section */}
       <section id="book" className="bg-background">
         <div className="container-page py-14 sm:py-20">
           <div className="grid gap-10 lg:grid-cols-12">
-            <div className="space-y-4 lg:col-span-6">
+            <motion.div
+              className="space-y-4 lg:col-span-6"
+              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.7, ease: easing.easeOutExpo }}
+            >
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                 Book a consultation
               </p>
@@ -188,34 +296,49 @@ export default function Home() {
                 approved, we can connect it to your preferred booking tool or a
                 simple lead capture system.
               </p>
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                <a
+              <motion.div
+                className="flex flex-col gap-3 sm:flex-row sm:items-center"
+                initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+              >
+                <motion.a
                   href={`tel:${site.phone}`}
                   className="inline-flex h-11 items-center justify-center rounded-full bg-brand px-6 text-sm font-semibold text-brand-foreground shadow-sm transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  whileHover={{ scale: shouldReduceMotion ? 1 : 1.02 }}
+                  whileTap={{ scale: shouldReduceMotion ? 1 : 0.98 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
                 >
                   Call {site.phone}
-                </a>
-                <Link
-                  href="/contact"
-                  className="inline-flex h-11 items-center justify-center rounded-full bg-brand px-6 text-sm font-semibold text-brand-foreground shadow-sm transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                </motion.a>
+                <motion.div
+                  whileHover={{ scale: shouldReduceMotion ? 1 : 1.02 }}
+                  whileTap={{ scale: shouldReduceMotion ? 1 : 0.98 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
                 >
-                  Contact form
-                </Link>
-              </div>
-            </div>
+                  <Link
+                    href="/contact"
+                    className="inline-flex h-11 items-center justify-center rounded-full bg-brand px-6 text-sm font-semibold text-brand-foreground shadow-sm transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    Contact form
+                  </Link>
+                </motion.div>
+              </motion.div>
+            </motion.div>
 
-            <div className="lg:col-span-6">
-              <div>
-                <LeadForm
-                  title="Quick request"
-                  subtitle="Leave your details and we’ll reply with next steps."
-                />
-              </div>
-              <p className="mt-3 text-xs text-muted-foreground">
-                Note: This is a mockup site — submissions are not connected to a
-                backend yet.
-              </p>
-            </div>
+            <motion.div
+              className="lg:col-span-6"
+              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.7, delay: 0.2, ease: easing.easeOutExpo }}
+            >
+              <LeadForm
+                title="Quick request"
+                subtitle="Leave your details and we'll reply with next steps."
+              />
+            </motion.div>
           </div>
         </div>
       </section>
