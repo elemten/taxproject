@@ -15,6 +15,7 @@ export function SiteFooter() {
       className="border-t bg-brand text-brand-foreground"
       style={{
         ["--muted-foreground" as never]: "rgba(255,255,255,0.78)",
+        ["--foreground" as never]: "rgba(255,255,255,0.96)",
         ["--border" as never]: "rgba(255,255,255,0.16)",
         ["--ring" as never]: "rgba(255,255,255,0.30)",
       }}
@@ -50,9 +51,9 @@ export function SiteFooter() {
               className="space-y-3"
               variants={shouldReduceMotion ? {} : fadeIn}
             >
-              <p className="text-sm font-semibold">Services</p>
-              <ul className="space-y-2 text-sm">
-                {site.serviceLines.map((s, index) => (
+                <p className="text-sm font-semibold">Services</p>
+                <ul className="space-y-2 text-sm">
+                  {site.serviceLines.map((s, index) => (
                   <motion.li
                     key={s.href}
                     initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: -10 }}
@@ -60,7 +61,10 @@ export function SiteFooter() {
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.05, duration: 0.4 }}
                   >
-                    <Link className="link-muted hover:text-foreground transition-colors" href={s.href}>
+                    <Link
+                      className="text-brand-foreground/80 transition-colors hover:text-brand-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      href={s.href}
+                    >
                       {s.title}
                     </Link>
                   </motion.li>
@@ -90,7 +94,10 @@ export function SiteFooter() {
                   viewport={{ once: true }}
                   transition={{ delay: 0.15, duration: 0.4 }}
                 >
-                  <a className="inline-flex items-center gap-2 link-muted hover:text-foreground transition-colors" href={`tel:${site.phone}`}>
+                  <a
+                    className="inline-flex items-center gap-2 text-brand-foreground/80 transition-colors hover:text-brand-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    href={`tel:${site.phone}`}
+                  >
                     <Phone className="size-4" aria-hidden="true" />
                     {site.phone}
                   </a>
@@ -101,7 +108,10 @@ export function SiteFooter() {
                   viewport={{ once: true }}
                   transition={{ delay: 0.2, duration: 0.4 }}
                 >
-                  <a className="inline-flex items-center gap-2 link-muted hover:text-foreground transition-colors" href={`mailto:${site.email}`}>
+                  <a
+                    className="inline-flex items-center gap-2 text-brand-foreground/80 transition-colors hover:text-brand-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    href={`mailto:${site.email}`}
+                  >
                     <Mail className="size-4" aria-hidden="true" />
                     {site.email}
                   </a>

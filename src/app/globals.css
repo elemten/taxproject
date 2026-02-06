@@ -93,6 +93,10 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+
+  .ambient-orb {
+    display: none;
+  }
 }
 
 /* Smooth scrolling for anchor links */
@@ -107,6 +111,59 @@ html {
   filter: blur(80px);
   pointer-events: none;
   z-index: 0;
+}
+
+@keyframes ambient-float {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(20px, 30px, 0) scale(1.08);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes ambient-float-reverse {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-15px, -25px, 0) scale(1.05);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes ambient-pulse {
+  0% {
+    transform: translateY(0);
+    opacity: 0.28;
+  }
+  50% {
+    transform: translateY(-20px);
+    opacity: 0.48;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0.28;
+  }
+}
+
+.ambient-orb-float-slow {
+  animation: ambient-float 20s linear infinite;
+}
+
+.ambient-orb-float-reverse {
+  animation: ambient-float-reverse 25s linear infinite;
+  animation-delay: 2s;
+}
+
+.ambient-orb-pulse {
+  animation: ambient-pulse 15s ease-in-out infinite;
+  animation-delay: 5s;
 }
 
 /* Link hover underline animation */

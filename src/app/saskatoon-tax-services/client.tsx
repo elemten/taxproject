@@ -89,7 +89,7 @@ export function SaskatoonTaxServicesPageClient() {
             >
               <Link
                 href="/services"
-                className="inline-flex h-12 items-center justify-center rounded-full bg-brand px-6 text-sm font-semibold text-brand-foreground shadow-sm transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                className="inline-flex h-12 items-center justify-center rounded-full border border-brand/25 bg-white/75 px-6 text-sm font-semibold text-brand shadow-sm transition-colors hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 Explore services
               </Link>
@@ -127,7 +127,7 @@ export function SaskatoonTaxServicesPageClient() {
                 >
                   <Link
                     href={s.href}
-                    className="group flex items-center justify-between rounded-[--radius-lg] border bg-white/65 px-4 py-3 shadow-sm backdrop-blur transition-colors hover:bg-white/80"
+                    className="group flex items-center justify-between rounded-[--radius-lg] border bg-white/65 px-4 py-3 shadow-sm backdrop-blur transition-colors hover:bg-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     <span className="font-medium">{s.title}</span>
                     <ArrowRight className="size-4 text-muted-foreground transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />

@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -14,8 +15,39 @@ export function BookingConsultationCard({
 }: BookingConsultationCardProps) {
   const shouldReduceMotion = useReducedMotion();
   const weekDays = ["S", "M", "T", "W", "T", "F", "S"] as const;
-  const days = Array.from({ length: 28 }, (_, index) => index + 1);
-  const availableDays = new Set([3, 5, 8, 10, 12, 17, 19, 24, 26]);
+  const today = useMemo(() => new Date(), []);
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth();
+  const firstWeekdayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+  const monthLabel = useMemo(
+    () =>
+      new Intl.DateTimeFormat("en-CA", {
+        month: "long",
+        year: "numeric",
+      }).format(new Date(currentYear, currentMonth, 1)),
+    [currentMonth, currentYear],
+  );
+
+  const availableDays = useMemo(() => {
+    const days = new Set<number>();
+    for (let day = 1; day <= daysInMonth; day += 1) {
+      const weekday = new Date(currentYear, currentMonth, day).getDay();
+      if (weekday === 2 || weekday === 4) {
+        days.add(day);
+      }
+    }
+    return days;
+  }, [currentMonth, currentYear, daysInMonth]);
+
+  const calendarCells = useMemo(
+    () => [
+      ...Array.from({ length: firstWeekdayOfMonth }, () => null),
+      ...Array.from({ length: daysInMonth }, (_, index) => index + 1),
+    ],
+    [daysInMonth, firstWeekdayOfMonth],
+  );
 
   return (
     <motion.aside
@@ -85,7 +117,7 @@ export function BookingConsultationCard({
             </button>
 
             <div className="text-[11px] font-semibold text-foreground">
-              February 2026
+              {monthLabel}
             </div>
 
             <button
@@ -113,7 +145,10 @@ export function BookingConsultationCard({
             animate={{ opacity: 1 }}
             transition={{ delay: 0.9, duration: 0.3 }}
           >
-            {days.map((day) => {
+            {calendarCells.map((day, index) => {
+              if (day === null) {
+                return <span key={`empty-${index}`} className="h-6" aria-hidden="true" />;
+              }
               const isAvailable = availableDays.has(day);
               return (
                 <button
