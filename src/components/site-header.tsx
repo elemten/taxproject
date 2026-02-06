@@ -170,7 +170,7 @@ export function SiteHeader() {
 
       {/* Main Navigation */}
       <motion.div
-        className="border-b bg-white/60 backdrop-blur-xl"
+        className="border-b bg-white"
         initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.5 }}
@@ -257,7 +257,7 @@ export function SiteHeader() {
                 <>
                   {/* Backdrop overlay */}
                   <motion.div
-                    className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm md:hidden"
+                    className="fixed inset-0 z-40 bg-black/50 md:hidden"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -267,18 +267,31 @@ export function SiteHeader() {
 
                   {/* Menu content */}
                   <motion.div
-                    className="absolute right-0 z-50 mt-2 w-[min(92vw,20rem)] origin-top-right overflow-hidden rounded-[--radius-lg] border bg-white/90 shadow-xl backdrop-blur-xl"
+                    className="fixed inset-0 z-50 flex min-h-dvh w-screen flex-col bg-white"
                     id="mobile-menu-dialog"
                     role="dialog"
                     aria-modal="true"
                     aria-label="Mobile navigation"
                     ref={mobileMenuPanelRef}
-                    initial={{ scale: 0.95, opacity: 0, y: -10 }}
-                    animate={{ scale: 1, opacity: 1, y: 0 }}
-                    exit={{ scale: 0.95, opacity: 0, y: -10 }}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 20 }}
                     transition={{ duration: 0.2, ease: easing.easeOutExpo }}
                   >
-                    <div className="flex flex-col p-2">
+                    <div className="flex items-center justify-between border-b px-4 py-4">
+                      <SiteLogo variant="navbar" />
+                      <button
+                        type="button"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="rounded-full border bg-white p-2 shadow-sm transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        aria-label="Close menu"
+                      >
+                        <X className="size-5" aria-hidden="true" />
+                      </button>
+                    </div>
+
+                    <div className="flex flex-1 flex-col justify-between px-4 py-6">
+                      <nav className="flex flex-col" aria-label="Mobile">
                       {site.nav.map((item, index) => (
                         <motion.div
                           key={item.href}
@@ -296,13 +309,15 @@ export function SiteHeader() {
                         >
                           <Link
                             href={item.href}
-                            className="block rounded-[--radius-lg] px-3 py-2 text-sm font-medium transition-colors hover:bg-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            className="block border-b py-4 text-lg font-semibold text-foreground transition-colors hover:text-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                             onClick={() => setMobileMenuOpen(false)}
                           >
                             {item.title}
                           </Link>
                         </motion.div>
                       ))}
+                      </nav>
+
                       <motion.div
                         initial={
                           shouldReduceMotion
@@ -317,7 +332,7 @@ export function SiteHeader() {
                       >
                         <Link
                           href="/contact"
-                          className="mt-1 inline-flex h-11 w-full items-center justify-center rounded-full bg-brand px-4 text-sm font-semibold text-brand-foreground shadow-sm hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                          className="inline-flex h-12 w-full items-center justify-center rounded-full bg-brand px-4 text-base font-semibold text-brand-foreground shadow-sm hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                           onClick={() => setMobileMenuOpen(false)}
                         >
                           Contact Us
