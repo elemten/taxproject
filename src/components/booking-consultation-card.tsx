@@ -87,14 +87,14 @@ export function BookingConsultationCard({
           </span>
         </div>
 
-        <motion.h3
+        <motion.h2
           className="mt-4 text-sm font-semibold tracking-tight text-foreground"
           initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7, duration: 0.4 }}
         >
           Book your free consultation.
-        </motion.h3>
+        </motion.h2>
         <p className="mt-1 text-[11px] leading-4 text-muted-foreground">
           Pick an available date. (Preview only)
         </p>

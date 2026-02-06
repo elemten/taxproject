@@ -20,7 +20,6 @@ export function SiteLogo({
         isNavbar ? "gap-3" : "gap-2",
         className,
       )}
-      aria-label="TrustEdge Tax Services"
     >
       {isNavbar ? (
         <>
