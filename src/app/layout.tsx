@@ -5,7 +5,6 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { StructuredData } from "@/components/structured-data";
 import { AmbientBackground } from "@/components/ambient-background";
-import { ScrollProgress } from "@/components/scroll-progress";
 import { getSiteUrl } from "@/lib/site-url";
 
 const geistSans = Geist({
@@ -53,7 +52,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <StructuredData />
-        <ScrollProgress />
         <div className="relative min-h-dvh bg-background">
           <AmbientBackground />
           <div className="relative z-10">

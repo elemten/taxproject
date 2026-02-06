@@ -149,7 +149,7 @@ export function ServicesPageClient() {
                 </motion.div>
                 <motion.a
                   href={`tel:${site.phone}`}
-                  className="inline-flex h-11 items-center justify-center rounded-full bg-brand px-6 text-sm font-semibold text-brand-foreground shadow-sm transition-colors hover:brightness-95"
+                  className="inline-flex h-11 items-center justify-center rounded-full border border-brand/25 bg-white/75 px-6 text-sm font-semibold text-brand shadow-sm transition-colors hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   whileHover={{ scale: shouldReduceMotion ? 1 : 1.02 }}
                   whileTap={{ scale: shouldReduceMotion ? 1 : 0.98 }}
                   transition={{ type: "spring", stiffness: 500, damping: 30 }}

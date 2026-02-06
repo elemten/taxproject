@@ -12,6 +12,9 @@ import { staggerFast, fadeIn, easing } from "@/lib/animations";
 export function SiteHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const mobileMenuButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileMenuPanelRef = useRef<HTMLDivElement>(null);
+  const wasMobileMenuOpen = useRef(false);
   const shouldReduceMotion = useReducedMotion();
 
   // Close menu on escape key
@@ -55,6 +58,59 @@ export function SiteHeader() {
     };
   }, [mobileMenuOpen]);
 
+  // Keep keyboard focus inside the mobile menu while it is open.
+  useEffect(() => {
+    if (!mobileMenuOpen) {
+      if (wasMobileMenuOpen.current) {
+        mobileMenuButtonRef.current?.focus();
+        wasMobileMenuOpen.current = false;
+      }
+      return;
+    }
+
+    wasMobileMenuOpen.current = true;
+
+    const panel = mobileMenuPanelRef.current;
+    if (!panel) {
+      return;
+    }
+
+    const focusableSelector =
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const focusable = Array.from(
+      panel.querySelectorAll<HTMLElement>(focusableSelector),
+    );
+
+    focusable[0]?.focus();
+
+    const handleTabKey = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") {
+        return;
+      }
+      if (focusable.length === 0) {
+        e.preventDefault();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement as HTMLElement | null;
+
+      if (e.shiftKey && active === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && active === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleTabKey);
+    return () => {
+      document.removeEventListener("keydown", handleTabKey);
+    };
+  }, [mobileMenuOpen]);
+
   return (
     <motion.header
       className="sticky top-0 z-50"
@@ -91,7 +147,7 @@ export function SiteHeader() {
             transition={{ delay: 0.3, duration: 0.4 }}
           >
             <motion.a
-              className="inline-flex items-center gap-2 transition-opacity hover:opacity-90"
+              className="inline-flex items-center gap-2 transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               href={`tel:${site.phone}`}
               whileHover={{ scale: shouldReduceMotion ? 1 : 1.02 }}
               whileTap={{ scale: shouldReduceMotion ? 1 : 0.98 }}
@@ -100,7 +156,7 @@ export function SiteHeader() {
               <span className="font-medium">{site.phone}</span>
             </motion.a>
             <motion.a
-              className="inline-flex items-center gap-2 transition-opacity hover:opacity-90"
+              className="inline-flex items-center gap-2 transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               href={`mailto:${site.email}`}
               whileHover={{ scale: shouldReduceMotion ? 1 : 1.02 }}
               whileTap={{ scale: shouldReduceMotion ? 1 : 0.98 }}
@@ -161,9 +217,12 @@ export function SiteHeader() {
           {/* Mobile Menu Button */}
           <div className="md:hidden" ref={mobileMenuRef}>
             <motion.button
+              ref={mobileMenuButtonRef}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="rounded-full border bg-white/70 p-2 shadow-sm backdrop-blur transition-colors hover:bg-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-menu-dialog"
+              aria-haspopup="dialog"
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
               whileTap={{ scale: 0.95 }}
             >
@@ -209,6 +268,11 @@ export function SiteHeader() {
                   {/* Menu content */}
                   <motion.div
                     className="absolute right-0 z-50 mt-2 w-[min(92vw,20rem)] origin-top-right overflow-hidden rounded-[--radius-lg] border bg-white/90 shadow-xl backdrop-blur-xl"
+                    id="mobile-menu-dialog"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="Mobile navigation"
+                    ref={mobileMenuPanelRef}
                     initial={{ scale: 0.95, opacity: 0, y: -10 }}
                     animate={{ scale: 1, opacity: 1, y: 0 }}
                     exit={{ scale: 0.95, opacity: 0, y: -10 }}
@@ -232,7 +296,7 @@ export function SiteHeader() {
                         >
                           <Link
                             href={item.href}
-                            className="block rounded-[--radius-lg] px-3 py-2 text-sm font-medium transition-colors hover:bg-white/60"
+                            className="block rounded-[--radius-lg] px-3 py-2 text-sm font-medium transition-colors hover:bg-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                             onClick={() => setMobileMenuOpen(false)}
                           >
                             {item.title}
@@ -253,7 +317,7 @@ export function SiteHeader() {
                       >
                         <Link
                           href="/contact"
-                          className="mt-1 inline-flex h-11 w-full items-center justify-center rounded-full bg-brand px-4 text-sm font-semibold text-brand-foreground shadow-sm hover:brightness-95"
+                          className="mt-1 inline-flex h-11 w-full items-center justify-center rounded-full bg-brand px-4 text-sm font-semibold text-brand-foreground shadow-sm hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                           onClick={() => setMobileMenuOpen(false)}
                         >
                           Contact Us

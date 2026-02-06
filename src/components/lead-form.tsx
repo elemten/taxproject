@@ -2,7 +2,6 @@
 
 import { useId, useMemo, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { Check, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/badge";
 import { easing } from "@/lib/animations";
@@ -14,23 +13,20 @@ type LeadFormProps = {
 };
 
 export function LeadForm({ title, subtitle, className }: LeadFormProps) {
-  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
+  const [hasPreviewSubmit, setHasPreviewSubmit] = useState(false);
   const formId = useId();
   const shouldReduceMotion = useReducedMotion();
   
   const statusText = useMemo(() => {
-    if (status === "sending") return "Sending...";
-    if (status === "sent") return "Thanks — we'll get back to you soon.";
+    if (hasPreviewSubmit) {
+      return "Preview mode only — this form does not send data yet. Please call or email to contact us now.";
+    }
     return "This is a design mockup. Submissions are not sent yet.";
-  }, [status]);
+  }, [hasPreviewSubmit]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus("sending");
-    // Simulate API call
-    setTimeout(() => {
-      setStatus("sent");
-    }, 1500);
+    setHasPreviewSubmit(true);
   };
 
   return (
@@ -127,46 +123,17 @@ export function LeadForm({ title, subtitle, className }: LeadFormProps) {
         >
           <motion.button
             type="submit"
-            disabled={status === "sending" || status === "sent"}
             className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-brand px-8 text-sm font-semibold text-brand-foreground shadow-md transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-70 disabled:cursor-not-allowed"
-            whileHover={shouldReduceMotion || status !== "idle" ? {} : { scale: 1.02, y: -2 }}
-            whileTap={shouldReduceMotion || status !== "idle" ? {} : { scale: 0.98 }}
+            whileHover={shouldReduceMotion ? {} : { scale: 1.02, y: -2 }}
+            whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
             transition={{ type: "spring", stiffness: 500, damping: 30 }}
           >
-            <AnimatePresence mode="wait">
-              {status === "sending" ? (
-                <motion.span
-                  key="sending"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="flex items-center gap-2"
-                >
-                  <Loader2 className="size-4 animate-spin" />
-                  Sending...
-                </motion.span>
-              ) : status === "sent" ? (
-                <motion.span
-                  key="sent"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  className="flex items-center gap-2"
-                >
-                  <Check className="size-4" />
-                  Sent!
-                </motion.span>
-              ) : (
-                <motion.span
-                  key="idle"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                >
-                  Request a callback
-                </motion.span>
-              )}
-            </AnimatePresence>
+            <motion.span
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              Submit request (preview)
+            </motion.span>
           </motion.button>
           
           <div
@@ -177,11 +144,11 @@ export function LeadForm({ title, subtitle, className }: LeadFormProps) {
           >
             <AnimatePresence mode="wait">
               <motion.p
-                key={status}
+                key={hasPreviewSubmit ? "submitted" : "idle"}
                 className={cn(
                   "text-xs",
-                  status === "sent"
-                    ? "text-green-600 font-medium"
+                  hasPreviewSubmit
+                    ? "font-medium text-amber-700"
                     : "text-muted-foreground",
                 )}
                 initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 10 }}
