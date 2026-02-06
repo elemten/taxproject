@@ -10,14 +10,17 @@ export function SectionHeading({
   description,
   className,
   align = "left",
+  level = 2,
 }: {
   eyebrow?: string;
   title: string;
   description?: string;
   className?: string;
   align?: "left" | "center";
+  level?: 1 | 2 | 3;
 }) {
   const shouldReduceMotion = useReducedMotion();
+  const HeadingTag = `h${level}` as "h1" | "h2" | "h3";
 
   return (
     <motion.div
@@ -42,9 +45,9 @@ export function SectionHeading({
           {eyebrow}
         </motion.p>
       ) : null}
-      <h2 className="text-balance text-2xl font-semibold tracking-tight sm:text-3xl">
+      <HeadingTag className="text-balance text-2xl font-semibold tracking-tight sm:text-3xl">
         {title}
-      </h2>
+      </HeadingTag>
       {description ? (
         <motion.p
           className="max-w-2xl text-pretty text-sm leading-7 text-muted-foreground sm:text-base"

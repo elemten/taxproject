@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { ServicePage } from "@/components/service-page";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Personal Tax",
   description:
     "Personal tax services in Saskatoon, Saskatchewan — a clear checklist, careful review, and a calm filing process.",
-};
+  path: "/services/personal-tax",
+});
 
 export default function PersonalTaxPage() {
   return (

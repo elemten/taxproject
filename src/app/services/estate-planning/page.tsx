@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { ServicePage } from "@/components/service-page";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Estate Planning",
   description:
     "Estate planning and estate-related tax support in Saskatchewan — structured coordination and careful handling during a sensitive time.",
-};
+  path: "/services/estate-planning",
+});
 
 export default function EstatePlanningPage() {
   return (

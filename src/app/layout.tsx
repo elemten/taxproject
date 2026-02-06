@@ -23,6 +23,7 @@ export const metadata: Metadata = {
     default: "TrustEdge Tax Services | Saskatoon, Saskatchewan",
     template: "%s | TrustEdge Tax Services",
   },
+  alternates: { canonical: "/" },
   description:
     "Tax services in Saskatoon, Saskatchewan focused on personal tax, corporate tax, and estate planning services.",
   applicationName: "TrustEdge Tax Services",
@@ -34,10 +35,27 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
+    locale: "en_CA",
+    siteName: "TrustEdge Tax Services",
+    url: "/",
     title: "TrustEdge Tax Services",
     description:
       "Tax services in Saskatoon, Saskatchewan focused on personal tax, corporate tax, and estate planning services.",
-    images: [{ url: "/assets/newlogo.png", width: 499, height: 539 }],
+    images: [
+      {
+        url: "/images/site/hero-saskatoon.webp",
+        width: 1200,
+        height: 630,
+        alt: "TrustEdge Tax Services in Saskatoon, Saskatchewan",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TrustEdge Tax Services | Saskatoon, Saskatchewan",
+    description:
+      "Tax services in Saskatoon, Saskatchewan focused on personal tax, corporate tax, and estate planning services.",
+    images: ["/images/site/hero-saskatoon.webp"],
   },
 };
 

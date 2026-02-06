@@ -105,30 +105,28 @@ export function BookingConsultationCard({
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.5 }}
         >
-          <div className="flex items-center justify-between">
-            <button
-              type="button"
-              disabled
-              aria-disabled="true"
-              className="inline-flex size-7 cursor-not-allowed items-center justify-center rounded-full bg-white/75 text-muted-foreground shadow-sm"
-              aria-label="Previous month (preview)"
+          <div
+            className="flex items-center justify-between"
+            role="img"
+            aria-label={`Preview calendar for ${monthLabel}. Highlighted days represent sample availability.`}
+          >
+            <span
+              className="inline-flex size-7 items-center justify-center rounded-full bg-white/75 text-muted-foreground shadow-sm"
+              aria-hidden="true"
             >
               <ChevronLeft className="size-4" aria-hidden="true" />
-            </button>
+            </span>
 
             <div className="text-[11px] font-semibold text-foreground">
               {monthLabel}
             </div>
 
-            <button
-              type="button"
-              disabled
-              aria-disabled="true"
-              className="inline-flex size-7 cursor-not-allowed items-center justify-center rounded-full bg-white/75 text-muted-foreground shadow-sm"
-              aria-label="Next month (preview)"
+            <span
+              className="inline-flex size-7 items-center justify-center rounded-full bg-white/75 text-muted-foreground shadow-sm"
+              aria-hidden="true"
             >
               <ChevronRight className="size-4" aria-hidden="true" />
-            </button>
+            </span>
           </div>
 
           <div className="mt-3 grid grid-cols-7 gap-1 text-center text-[9px] font-semibold text-muted-foreground">
@@ -151,25 +149,18 @@ export function BookingConsultationCard({
               }
               const isAvailable = availableDays.has(day);
               return (
-                <button
+                <div
                   key={day}
-                  type="button"
-                  disabled
-                  aria-disabled="true"
                   className={cn(
-                    "flex h-6 cursor-not-allowed items-center justify-center rounded-md text-[10px] font-semibold tabular-nums",
+                    "flex h-6 items-center justify-center rounded-md text-[10px] font-semibold tabular-nums",
                     isAvailable
                       ? "bg-brand/15 text-brand"
                       : "bg-white/75 text-muted-foreground",
                   )}
-                  aria-label={
-                    isAvailable
-                      ? `Day ${day} available (preview)`
-                      : `Day ${day} unavailable (preview)`
-                  }
+                  aria-hidden="true"
                 >
                   {day}
-                </button>
+                </div>
               );
             })}
           </motion.div>
@@ -180,17 +171,15 @@ export function BookingConsultationCard({
           </div>
         </motion.div>
 
-        <motion.button
-          type="button"
-          disabled
-          aria-disabled="true"
-          className="mt-4 inline-flex h-9 w-full cursor-not-allowed items-center justify-center rounded-full bg-brand px-5 text-[13px] font-semibold text-brand-foreground shadow-sm opacity-70"
+        <motion.div
+          className="mt-4 inline-flex h-9 w-full items-center justify-center rounded-full bg-brand px-5 text-[13px] font-semibold text-brand-foreground shadow-sm opacity-70"
+          aria-hidden="true"
           initial={shouldReduceMotion ? { opacity: 0.7 } : { opacity: 0, y: 10 }}
           animate={{ opacity: 0.7, y: 0 }}
           transition={{ delay: 1.0, duration: 0.4 }}
         >
           Book consultation
-        </motion.button>
+        </motion.div>
 
         <motion.p
           className="mt-2 text-[10px] text-muted-foreground"

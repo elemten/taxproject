@@ -24,6 +24,7 @@ export function SaskatoonTaxServicesPageClient() {
             eyebrow="Local Service"
             title="Saskatoon tax services with a premium, checklist-driven process"
             description="TrustEdge Tax Services is built for Saskatchewan clients who want clarity, calm communication, and an organized workflow."
+            level={1}
           />
 
           <motion.div

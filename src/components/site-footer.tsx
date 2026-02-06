@@ -96,7 +96,7 @@ export function SiteFooter() {
                 >
                   <a
                     className="inline-flex items-center gap-2 text-brand-foreground/80 transition-colors hover:text-brand-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    href={`tel:${site.phone}`}
+                    href={`tel:${site.phoneHref}`}
                   >
                     <Phone className="size-4" aria-hidden="true" />
                     {site.phone}

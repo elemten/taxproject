@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { ServicePage } from "@/components/service-page";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Corporate Tax",
   description:
     "Corporate tax support for Saskatchewan businesses — structured intake, careful review, and CRA-ready documentation.",
-};
+  path: "/services/corporate-tax",
+});
 
 export default function CorporateTaxPage() {
   return (

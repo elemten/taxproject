@@ -148,7 +148,7 @@ export function SiteHeader() {
           >
             <motion.a
               className="inline-flex items-center gap-2 transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              href={`tel:${site.phone}`}
+              href={`tel:${site.phoneHref}`}
               whileHover={{ scale: shouldReduceMotion ? 1 : 1.02 }}
               whileTap={{ scale: shouldReduceMotion ? 1 : 0.98 }}
             >

@@ -24,6 +24,7 @@ export function ContactPageClient() {
             eyebrow="Contact"
             title="Let's make this simple"
             description="Tell us what you need and we'll reply with next steps and a checklist. (Mockup: submissions are not connected yet.)"
+            level={1}
           />
 
           <motion.div
@@ -53,8 +54,8 @@ export function ContactPageClient() {
                 transition={{ delay: 0.35, duration: 0.4 }}
               >
                 <a
-                  className="inline-flex items-center gap-2 link-muted hover:text-foreground transition-colors"
-                  href={`tel:${site.phone}`}
+                  className="inline-flex items-center gap-2 link-muted hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  href={`tel:${site.phoneHref}`}
                 >
                   <Phone className="size-4" aria-hidden="true" />
                   {site.phone}
@@ -67,7 +68,7 @@ export function ContactPageClient() {
                 transition={{ delay: 0.4, duration: 0.4 }}
               >
                 <a
-                  className="inline-flex items-center gap-2 link-muted hover:text-foreground transition-colors"
+                  className="inline-flex items-center gap-2 link-muted hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   href={`mailto:${site.email}`}
                 >
                   <Mail className="size-4" aria-hidden="true" />

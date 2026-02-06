@@ -6,8 +6,11 @@ export function StructuredData() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "AccountingService",
+    "@id": new URL("/#organization", baseUrl).toString(),
     name: site.name,
     url: baseUrl.toString(),
+    description:
+      "Saskatchewan-focused tax services for personal tax, corporate tax, and estate planning.",
     logo: new URL("/assets/newlogo.png", baseUrl).toString(),
     image: new URL("/assets/newlogo.png", baseUrl).toString(),
     areaServed: [
@@ -20,8 +23,33 @@ export function StructuredData() {
         name: "Saskatoon",
       },
     ],
-    telephone: site.phone,
+    telephone: site.phoneHref,
     email: site.email,
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        telephone: site.phoneHref,
+        email: site.email,
+        contactType: "customer service",
+        areaServed: "CA",
+        availableLanguage: ["en"],
+      },
+    ],
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ],
+        opens: "09:30",
+        closes: "17:30",
+      },
+    ],
     founder: {
       "@type": "Person",
       name: site.personName,
@@ -32,6 +60,7 @@ export function StructuredData() {
       addressRegion: "SK",
       addressCountry: "CA",
     },
+    priceRange: "$$",
   };
 
   return (

@@ -61,6 +61,7 @@ export function FAQPageClient() {
           eyebrow="FAQ"
           title="Common questions"
           description="Quick answers to the questions we hear most often. (Mockup content — we can refine after approval.)"
+          level={1}
         />
 
         <AnimatedAccordion items={faqs} />
