@@ -131,7 +131,6 @@ export function LeadForm({ title, subtitle, className }: LeadFormProps) {
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
             >
               Submit request (preview)
             </motion.span>

@@ -4,7 +4,9 @@ interface AmbientBackgroundProps {
 
 export function AmbientBackground({ className }: AmbientBackgroundProps) {
   return (
-    <div className={`fixed inset-0 overflow-hidden pointer-events-none ${className}`}>
+    <div
+      className={`fixed inset-0 overflow-hidden pointer-events-none ${className ?? ""}`}
+    >
       <div
         className="ambient-orb ambient-orb-float-slow bg-brand/10"
         style={{
