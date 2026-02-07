@@ -14,7 +14,7 @@ export default function CorporateTaxPage() {
       <ServicePage
         title="Corporate Tax"
         intro="A structured process for business owners who want clarity, organization, and corporate filing support that feels premium and predictable."
-        imageSrc="/images/site/corporate-tax.webp"
+        imageSrc="/images/site/corporate-tax-4k.webp"
         imageAlt="Modern corporate desk scene for tax planning"
         whoFor={[
           "Small business owners looking for a cleaner year-end process",
@@ -36,11 +36,11 @@ export default function CorporateTaxPage() {
       faqs={[
         {
           q: "Do you support GST/HST and payroll?",
-          a: "For the mockup, we keep the focus on corporate tax. If you want, we can add optional add-ons later (GST/HST, payroll, bookkeeping coordination).",
+          a: "Yes. We support GST/HST workflows, payroll-related tax documentation, and bookkeeping coordination as part of corporate engagements.",
         },
         {
           q: "Can you work with my accountant or bookkeeper?",
-          a: "Yes — the process is designed to coordinate cleanly with other professionals when needed.",
+          a: "Yes. We coordinate directly with your accountant or bookkeeper to keep records aligned and deadlines on track.",
         },
       ]}
     />

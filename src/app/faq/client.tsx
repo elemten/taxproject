@@ -7,20 +7,16 @@ import { site } from "@/lib/site";
 
 const faqs = [
   {
-    q: "Do you handle CRA (Canada) cases only, or US/IRS too?",
-    a: "We focus on Canadian tax and CRA-related work, and we take on select CRA cases depending on scope and timelines. If your situation includes US/IRS or complex cross-border requirements, we'll help you confirm the right next step.",
-  },
-  {
     q: "Do you serve only Saskatoon?",
-    a: `Saskatoon is the priority, but we also serve clients across ${site.province}.`,
+    a: `Saskatoon is our primary market, and we also support clients across ${site.province} and other Canadian locations through remote-first coordination.`,
   },
   {
     q: "How do I get started?",
-    a: "Book a consultation (placeholder on the homepage) or use the contact form. We'll reply with next steps and a simple checklist.",
+    a: "Call, email, or submit the contact form. We respond with next steps, timeline guidance, and your appointment time.",
   },
   {
     q: "Do you offer GST/HST, bookkeeping, or payroll?",
-    a: "GST/HST, bookkeeping, and payroll support is being added soon. In the meantime, we can work with the records you already have and keep the tax workflow organized — rest assured we'll guide the next step.",
+    a: "GST/HST, bookkeeping, and payroll support is coming soon. In the meantime, we can coordinate your tax file and keep everything organized for a smooth transition.",
   },
   {
     q: "Can you work with a third-party bookkeeper or payroll provider?",
@@ -28,7 +24,7 @@ const faqs = [
   },
   {
     q: "Do you provide financial guidance or advice?",
-    a: "Yes — general financial guidance is often part of tax planning and helping you choose the next best step. For highly complicated situations, we may recommend speaking with a qualified professional (for example, a lawyer, CFP, or specialist) for comprehensive advice. Website content is shared as general information; recommendations become specific during an engagement.",
+    a: "Yes. We provide tax-focused planning guidance and, when needed, coordinate directly with legal and financial specialists so recommendations stay aligned with your goals.",
   },
 ];
 
@@ -60,7 +56,7 @@ export function FAQPageClient() {
         <SectionHeading
           eyebrow="FAQ"
           title="Common questions"
-          description="Quick answers to the questions we hear most often. (Mockup content — we can refine after approval.)"
+          description="Clear answers to the questions we hear most often from individuals, families, and business owners."
           level={1}
         />
 

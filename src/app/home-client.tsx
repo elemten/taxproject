@@ -132,7 +132,7 @@ export default function Home() {
                 title="Personal Tax"
                 description="Clean, checklist-driven filing with a calm, professional experience built for Saskatchewan clients."
                 href="/services/personal-tax"
-                imageSrc="/images/site/personal-tax.webp"
+                imageSrc="/images/site/personal-tax-card-20260206.png"
                 imageAlt="Personal tax preparation desk scene in Saskatchewan"
                 ctaLabel="READ MORE"
               />
@@ -140,7 +140,7 @@ export default function Home() {
                 title="Corporate Tax"
                 description="A structured workflow to keep business documents organized, review-ready, and CRA-ready."
                 href="/services/corporate-tax"
-                imageSrc="/images/site/corporate-tax.webp"
+                imageSrc="/images/site/corporate-tax-4k.webp"
                 imageAlt="Modern corporate desk scene for tax planning"
                 ctaLabel="READ MORE"
               />
@@ -148,7 +148,7 @@ export default function Home() {
                 title="Estate Planning"
                 description="Professional handling and coordination for estate-related tax needs with clear next steps."
                 href="/services/estate-planning"
-                imageSrc="/images/site/estate-planning.webp"
+                imageSrc="/images/site/estate-planning-4k.webp"
                 imageAlt="Calm estate planning desk scene with binder and documents"
                 ctaLabel="READ MORE"
               />
@@ -292,9 +292,8 @@ export default function Home() {
                 Request an appointment
               </h2>
               <p className="max-w-xl text-sm leading-7 text-muted-foreground sm:text-base">
-                Placeholder booking section for the mockup. Once the design is
-                approved, we can connect it to your preferred booking tool or a
-                simple lead capture system.
+                Request your consultation by phone or contact form and we&apos;ll
+                confirm the next step quickly with a clear checklist and timing.
               </p>
               <motion.div
                 className="flex flex-col gap-3 sm:flex-row sm:items-center"

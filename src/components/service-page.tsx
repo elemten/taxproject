@@ -124,6 +124,9 @@ export function ServicePage({
                   fill
                   containerClassName="h-full w-full"
                   priority
+                  sizes="100vw"
+                  quality={100}
+                  unoptimized
                 />
               </motion.div>
             </div>

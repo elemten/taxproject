@@ -14,7 +14,7 @@ export default function EstatePlanningPage() {
       <ServicePage
         title="Estate Planning Services"
         intro="A calm, structured approach to estate planning and estate-related tax needs, designed to reduce stress and keep responsibilities clear during a difficult time."
-        imageSrc="/images/site/estate-planning.webp"
+        imageSrc="/images/site/estate-planning-4k.webp"
         imageAlt="Calm estate planning desk scene with binder and documents"
         whoFor={[
           "Executors who want an organized, step-by-step plan",
@@ -36,11 +36,11 @@ export default function EstatePlanningPage() {
       faqs={[
         {
           q: "Is this legal advice?",
-          a: "This service is presented for tax-related support and coordination. Legal questions are best handled by a qualified lawyer.",
+          a: "We provide tax-focused estate planning support and coordinate closely with your lawyer or advisor so legal and tax steps stay aligned.",
         },
         {
           q: "Can you tailor this to our situation?",
-          a: "Yes — the consultation step is designed to clarify responsibilities and define a simple plan based on your documents.",
+          a: "Yes. Each engagement is tailored to your estate documents, timeline, and family coordination needs.",
         },
       ]}
     />

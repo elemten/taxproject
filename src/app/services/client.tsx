@@ -101,11 +101,14 @@ export function ServicesPageClient() {
                 transition={{ duration: 0.6, ease: easing.easeOutExpo }}
               >
                 <ImageWithLoader
-                  src="/images/site/services-overview.webp"
-                  alt="Modern, minimal office interior representing tax service options"
+                  src="/images/site/services-overview-4k.webp"
+                  alt="Professional tax service folders labeled Personal Tax, Corporate Tax, and Estate Planning on an organized desk"
                   fill
                   containerClassName="h-full w-full"
                   priority
+                  sizes="(min-width: 1280px) 60vw, (min-width: 1024px) 65vw, 100vw"
+                  quality={100}
+                  unoptimized
                 />
               </motion.div>
             </div>

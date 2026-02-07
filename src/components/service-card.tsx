@@ -58,6 +58,9 @@ export function ServiceCard({
               fill
               containerClassName="h-full w-full"
               priority={false}
+              sizes="(min-width: 1280px) 30vw, (min-width: 1024px) 32vw, 100vw"
+              quality={100}
+              unoptimized
             />
           </motion.div>
         </div>

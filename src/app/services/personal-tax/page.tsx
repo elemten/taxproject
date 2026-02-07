@@ -14,7 +14,7 @@ export default function PersonalTaxPage() {
       <ServicePage
         title="Personal Tax"
         intro="A clean, organized approach to personal tax filing for individuals and families in Saskatoon and across Saskatchewan."
-        imageSrc="/images/site/personal-tax.webp"
+        imageSrc="/images/site/personal-tax-card-20260206.png"
         imageAlt="Personal tax preparation desk scene in Saskatchewan"
         whoFor={[
           "Individuals and families who want a straightforward filing process",
@@ -36,11 +36,11 @@ export default function PersonalTaxPage() {
       faqs={[
         {
           q: "Do you handle CRA communications?",
-          a: "For the mockup, this is presented as a service option. Once the workflow is finalized, we can define exactly what CRA support is included.",
+          a: "Yes. We support CRA correspondence, notice review, and response-ready documentation as part of your engagement.",
         },
         {
           q: "How long does it take?",
-          a: "Timelines depend on document readiness. The process is designed to be clear and efficient, and we’ll confirm an expected timeline after intake.",
+          a: "Most personal tax files are completed within 5 to 10 business days once all documents are received. Urgent timelines can be prioritized.",
         },
       ]}
     />

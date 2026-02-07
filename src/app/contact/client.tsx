@@ -23,7 +23,7 @@ export function ContactPageClient() {
           <SectionHeading
             eyebrow="Contact"
             title="Let's make this simple"
-            description="Tell us what you need and we'll reply with next steps and a checklist. (Mockup: submissions are not connected yet.)"
+            description="Tell us what you need and we'll reply with next steps, timeline guidance, and a tailored checklist."
             level={1}
           />
 
@@ -101,7 +101,8 @@ export function ContactPageClient() {
               <p className="text-sm font-semibold">Service area</p>
             </div>
             <p className="mt-2 text-sm leading-7 text-muted-foreground">
-              Serving Saskatoon and clients across {site.province}. Canada-only.
+              Serving Saskatoon and clients across {site.province}, with remote
+              support available across Canada.
             </p>
           </motion.div>
         </motion.div>

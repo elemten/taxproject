@@ -19,9 +19,9 @@ export function LeadForm({ title, subtitle, className }: LeadFormProps) {
   
   const statusText = useMemo(() => {
     if (hasPreviewSubmit) {
-      return "Preview mode only — this form does not send data yet. Please call or email to contact us now.";
+      return "Online form delivery is being finalized. Please call or email us now for immediate assistance.";
     }
-    return "This is a design mockup. Submissions are not sent yet.";
+    return "For the fastest response, call or email us directly and we will confirm next steps right away.";
   }, [hasPreviewSubmit]);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -132,7 +132,7 @@ export function LeadForm({ title, subtitle, className }: LeadFormProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
             >
-              Submit request (preview)
+              Submit request
             </motion.span>
           </motion.button>
           

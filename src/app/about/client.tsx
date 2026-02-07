@@ -58,8 +58,8 @@ export function AboutPageClient() {
                 viewport={{ once: true }}
                 transition={{ delay: 0.25, duration: 0.5 }}
               >
-                This site is a mockup to approve layout, content flow, and a
-                premium minimal look before connecting any backend systems.
+                We prioritize responsive communication, dependable timelines,
+                and careful execution from intake through final filing.
               </motion.p>
               <motion.div
                 className="flex flex-col gap-3 sm:flex-row sm:items-center"

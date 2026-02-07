@@ -14,6 +14,8 @@ interface ImageWithLoaderProps {
   containerClassName?: string;
   priority?: boolean;
   sizes?: string;
+  quality?: number;
+  unoptimized?: boolean;
 }
 
 export function ImageWithLoader({
@@ -26,6 +28,8 @@ export function ImageWithLoader({
   containerClassName,
   priority = false,
   sizes,
+  quality,
+  unoptimized = false,
 }: ImageWithLoaderProps) {
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -46,8 +50,7 @@ export function ImageWithLoader({
         style={{
           opacity: isLoaded ? 1 : 0,
           transform: isLoaded ? "scale(1)" : "scale(1.05)",
-          filter: isLoaded ? "blur(0px)" : "blur(10px)",
-          transition: "opacity 0.45s ease, transform 0.45s ease, filter 0.45s ease",
+          transition: "opacity 0.35s ease, transform 0.35s ease",
         }}
       >
         {fill ? (
@@ -59,6 +62,8 @@ export function ImageWithLoader({
             onLoad={() => setIsLoaded(true)}
             priority={priority}
             sizes={sizes}
+            quality={quality}
+            unoptimized={unoptimized}
           />
         ) : (
           <Image
@@ -69,6 +74,8 @@ export function ImageWithLoader({
             className={cn("object-cover", className)}
             onLoad={() => setIsLoaded(true)}
             priority={priority}
+            quality={quality}
+            unoptimized={unoptimized}
           />
         )}
       </div>
