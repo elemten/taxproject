@@ -1,22 +1,18 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
-import {
-  BadgeCheck,
-  CalendarClock,
-  Loader2,
-  Plus,
-  RefreshCw,
-  Search,
-  UserCheck,
-  UserPlus,
-  Users,
-} from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { CalendarClock, LayoutDashboard, Loader2, RefreshCw, Search, UserCheck, Users2 } from "lucide-react";
 import { SiteLogo } from "@/components/site-logo";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Select } from "@/components/ui/select";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 
 type LeadStatus = "new" | "contacted" | "qualified" | "converted" | "closed";
 type StatusFilter = LeadStatus | "all";
+type AdminSection = "dashboard" | "leads" | "slots";
 
 type LeadRow = {
   id: string;
@@ -51,15 +47,14 @@ type DashboardResponse = {
 type StatItem = {
   label: string;
   value: number;
-  icon: LucideIcon;
 };
 
 const statusBadgeClass: Record<LeadStatus, string> = {
-  new: "bg-blue-100 text-blue-700",
-  contacted: "bg-amber-100 text-amber-700",
-  qualified: "bg-emerald-100 text-emerald-700",
-  converted: "bg-violet-100 text-violet-700",
-  closed: "bg-slate-100 text-slate-700",
+  new: "bg-[#FFF4CC] text-[#7A5A00]",
+  contacted: "bg-[#E8EEF8] text-[#062B68]",
+  qualified: "bg-[#FFF4CC] text-[#7A5A00]",
+  converted: "bg-[#062B68] text-white",
+  closed: "bg-slate-200 text-slate-700",
 };
 
 const statusLabel: Record<LeadStatus, string> = {
@@ -79,6 +74,25 @@ const statusFilters: Array<{ value: StatusFilter; label: string }> = [
   { value: "closed", label: "Closed" },
 ];
 
+const leadStatusOptions: LeadStatus[] = ["new", "contacted", "qualified", "converted", "closed"];
+
+const sectionMeta: Record<AdminSection, { title: string; description: string }> = {
+  dashboard: {
+    title: "Dashboard",
+    description: "Pipeline visibility and high-level metrics.",
+  },
+  leads: {
+    title: "Lead Functions",
+    description: "Search, filter, update status, and convert leads.",
+  },
+  slots: {
+    title: "Booking Functions",
+    description: "Create and monitor consultation slots.",
+  },
+};
+
+const formatDateTime = (value: string) => new Date(value).toLocaleString("en-CA");
+
 export function AdminPageClient() {
   const [dashboard, setDashboard] = useState<DashboardResponse | null>(null);
   const [slots, setSlots] = useState<SlotRow[]>([]);
@@ -90,6 +104,7 @@ export function AdminPageClient() {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [lastUpdatedLabel, setLastUpdatedLabel] = useState("");
+  const [activeSection, setActiveSection] = useState<AdminSection>("dashboard");
   const [slotForm, setSlotForm] = useState({
     startsAt: "",
     endsAt: "",
@@ -121,15 +136,11 @@ export function AdminPageClient() {
         | null;
 
       if (!leadsResponse.ok) {
-        throw new Error(
-          (leadsResult as { error?: string } | null)?.error ?? "Failed to load leads",
-        );
+        throw new Error((leadsResult as { error?: string } | null)?.error ?? "Failed to load leads");
       }
 
       if (!slotsResponse.ok) {
-        throw new Error(
-          (slotsResult as { error?: string } | null)?.error ?? "Failed to load slots",
-        );
+        throw new Error((slotsResult as { error?: string } | null)?.error ?? "Failed to load slots");
       }
 
       setDashboard(leadsResult as DashboardResponse);
@@ -158,16 +169,12 @@ export function AdminPageClient() {
     }
 
     return [
-      { label: "Total Leads", value: dashboard.stats.totalLeads, icon: Users },
-      { label: "New Leads", value: dashboard.stats.newLeads, icon: UserPlus },
-      { label: "Qualified", value: dashboard.stats.qualifiedLeads, icon: BadgeCheck },
-      { label: "Converted", value: dashboard.stats.convertedLeads, icon: UserCheck },
-      { label: "Active Bookings", value: dashboard.stats.activeBookings, icon: CalendarClock },
-      {
-        label: "Open Slots",
-        value: slots.filter((slot) => slot.is_active).length,
-        icon: CalendarClock,
-      },
+      { label: "Total Leads", value: dashboard.stats.totalLeads },
+      { label: "New Leads", value: dashboard.stats.newLeads },
+      { label: "Qualified", value: dashboard.stats.qualifiedLeads },
+      { label: "Converted", value: dashboard.stats.convertedLeads },
+      { label: "Active Bookings", value: dashboard.stats.activeBookings },
+      { label: "Open Slots", value: slots.filter((slot) => slot.is_active).length },
     ];
   }, [dashboard, slots]);
 
@@ -184,19 +191,42 @@ export function AdminPageClient() {
         return true;
       }
 
-      const searchableText = [
-        lead.name,
-        lead.email,
-        lead.phone,
-        lead.source,
-        lead.service_interest ?? "",
-      ]
+      const searchableText = [lead.name, lead.email, lead.phone, lead.source, lead.service_interest ?? ""]
         .join(" ")
         .toLowerCase();
 
       return searchableText.includes(normalizedQuery);
     });
   }, [dashboard, searchQuery, statusFilter]);
+
+  const sidebarItems = useMemo(
+    () => [
+      {
+        id: "dashboard" as const,
+        label: "Dashboard",
+        hint: "Overview",
+        icon: LayoutDashboard,
+        count: stats.length > 0 ? stats[0]?.value ?? 0 : 0,
+      },
+      {
+        id: "leads" as const,
+        label: "Lead Functions",
+        hint: "Pipeline",
+        icon: Users2,
+        count: dashboard?.leads.length ?? 0,
+      },
+      {
+        id: "slots" as const,
+        label: "Booking Functions",
+        hint: "Calendar",
+        icon: CalendarClock,
+        count: slots.length,
+      },
+    ],
+    [dashboard?.leads.length, slots.length, stats],
+  );
+
+  const recentLeads = useMemo(() => (dashboard?.leads ?? []).slice(0, 6), [dashboard]);
 
   const updateLeadStatus = async (leadId: string, status: LeadStatus) => {
     setPendingLeadId(leadId);
@@ -216,6 +246,8 @@ export function AdminPageClient() {
       }
 
       await refreshData();
+    } catch (updateError) {
+      setError(updateError instanceof Error ? updateError.message : "Unable to update lead");
     } finally {
       setPendingLeadId(null);
     }
@@ -239,6 +271,8 @@ export function AdminPageClient() {
       }
 
       await refreshData();
+    } catch (convertError) {
+      setError(convertError instanceof Error ? convertError.message : "Unable to convert lead");
     } finally {
       setPendingLeadId(null);
     }
@@ -268,6 +302,7 @@ export function AdminPageClient() {
 
       setSlotForm({ startsAt: "", endsAt: "", timezone: slotForm.timezone });
       await refreshData();
+      setActiveSection("slots");
     } catch (createError) {
       setError(createError instanceof Error ? createError.message : "Unable to create slot");
     } finally {
@@ -276,264 +311,369 @@ export function AdminPageClient() {
   };
 
   return (
-    <section className="pb-10 pt-8 sm:pb-14 sm:pt-10">
-      <div className="container-page space-y-6">
-        <header className="surface-solid border-brand/15 bg-white/95 p-5 sm:p-6">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <SiteLogo variant="icon" />
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand/70">Internal</p>
-                <h1 className="text-xl font-semibold text-brand sm:text-2xl">TrustEdge Admin Workspace</h1>
-                <p className="mt-1 text-sm text-muted-foreground">Lead pipeline, booking slots, and conversion flow.</p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <p className="hidden text-xs text-muted-foreground sm:block">
-                Last synced {lastUpdatedLabel || "--:--"}
-              </p>
-              <button
-                type="button"
-                onClick={() => void refreshData(true)}
-                disabled={refreshing || loading}
-                className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-brand/15 bg-white px-4 text-xs font-semibold text-brand transition-colors hover:bg-brand/[0.05] disabled:cursor-not-allowed disabled:opacity-70"
-              >
-                {refreshing || loading ? <Loader2 className="size-3.5 animate-spin" /> : <RefreshCw className="size-3.5" />}
-                Refresh data
-              </button>
-            </div>
-          </div>
-
-          <div className="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-3">
-            {stats.map((stat) => (
-              <article key={stat.label} className="rounded-2xl border border-brand/10 bg-white p-4">
-                <div className="flex items-center justify-between">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-brand/65">{stat.label}</p>
-                  <stat.icon className="size-4 text-brand/75" />
-                </div>
-                <p className="mt-2 text-2xl font-semibold tracking-tight text-brand">{stat.value}</p>
-              </article>
-            ))}
-          </div>
-        </header>
-
-        {error ? (
-          <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
-        ) : null}
-
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]">
-          <div className="surface-solid border-brand/10 bg-white/95">
-            <div className="border-b border-brand/10 px-4 py-4 sm:px-6">
-              <div className="flex flex-wrap items-end justify-between gap-3">
-                <div>
-                  <h2 className="text-lg font-semibold text-brand">Lead Pipeline</h2>
-                  <p className="text-xs text-muted-foreground">
-                    Showing {visibleLeads.length} of {dashboard?.leads.length ?? 0} leads
-                  </p>
-                </div>
+    <section className="min-h-dvh bg-slate-100 py-4 sm:py-6" data-admin-shell>
+      <div className="mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-4 lg:grid-cols-[18rem_minmax(0,1fr)]">
+          <aside className="lg:sticky lg:top-4 lg:h-[calc(100dvh-2rem)] lg:self-start">
+            <div className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+              <div className="border-b border-slate-200 pb-4">
+                <SiteLogo variant="icon" />
+                <p className="mt-4 text-xs font-semibold uppercase tracking-[0.16em] text-[#062B68]">Admin Portal</p>
               </div>
 
-              <div className="mt-4 grid gap-3 sm:grid-cols-[minmax(0,1fr)_11rem]">
-                <label className="relative">
-                  <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-                  <input
-                    type="search"
-                    placeholder="Search name, email, phone, source"
-                    value={searchQuery}
-                    onChange={(event) => setSearchQuery(event.target.value)}
-                    className="h-10 w-full rounded-full border border-brand/15 bg-white pl-10 pr-4 text-sm text-foreground outline-none transition-colors focus:border-brand/35"
-                  />
-                </label>
-                <label>
-                  <select
-                    value={statusFilter}
-                    onChange={(event) => setStatusFilter(event.target.value as StatusFilter)}
-                    className="h-10 w-full rounded-full border border-brand/15 bg-white px-3 text-sm text-foreground outline-none transition-colors focus:border-brand/35"
-                  >
-                    {statusFilters.map((filter) => (
-                      <option key={filter.value} value={filter.value}>
-                        {filter.label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-            </div>
+              <nav className="mt-4 space-y-2">
+                {sidebarItems.map((item) => {
+                  const ItemIcon = item.icon;
+                  const isActive = activeSection === item.id;
 
-            {loading ? (
-              <div className="flex items-center gap-2 px-6 py-10 text-sm text-muted-foreground">
-                <Loader2 className="size-4 animate-spin" />
-                Loading leads...
-              </div>
-            ) : visibleLeads.length === 0 ? (
-              <div className="px-6 py-10 text-sm text-muted-foreground">No leads match the current filters.</div>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="min-w-[860px] w-full text-left">
-                  <thead className="bg-brand/[0.04]">
-                    <tr>
-                      {["Lead", "Contact", "Source", "Service", "Status", "Created", "Actions"].map((col) => (
-                        <th
-                          key={col}
-                          className="px-4 py-4 text-[11px] font-semibold uppercase tracking-[0.14em] text-brand/80 sm:px-6"
-                        >
-                          {col}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-brand/10">
-                    {visibleLeads.map((lead) => {
-                      const isPending = pendingLeadId === lead.id;
-
-                      return (
-                        <tr key={lead.id} className="hover:bg-brand/[0.03]">
-                          <td className="px-4 py-4 sm:px-6">
-                            <p className="text-sm font-semibold text-brand">{lead.name}</p>
-                            <p className="text-xs text-muted-foreground">{lead.email}</p>
-                          </td>
-                          <td className="px-4 py-4 text-sm text-muted-foreground sm:px-6">{lead.phone}</td>
-                          <td className="px-4 py-4 text-sm text-muted-foreground sm:px-6">{lead.source}</td>
-                          <td className="px-4 py-4 text-sm text-muted-foreground sm:px-6">{lead.service_interest ?? "-"}</td>
-                          <td className="px-4 py-4 sm:px-6">
-                            <span
-                              className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${statusBadgeClass[lead.status]}`}
-                            >
-                              {statusLabel[lead.status]}
-                            </span>
-                          </td>
-                          <td className="px-4 py-4 text-xs text-muted-foreground sm:px-6">
-                            {new Date(lead.created_at).toLocaleString("en-CA")}
-                          </td>
-                          <td className="px-4 py-4 sm:px-6">
-                            <div className="flex items-center gap-2">
-                              <select
-                                value={lead.status}
-                                disabled={isPending}
-                                className="h-8 rounded-full border border-brand/15 bg-white px-3 text-xs text-foreground disabled:opacity-70"
-                                onChange={(event) => {
-                                  const value = event.target.value as LeadStatus;
-                                  void updateLeadStatus(lead.id, value).catch((statusError) => {
-                                    setError(
-                                      statusError instanceof Error
-                                        ? statusError.message
-                                        : "Unable to update lead",
-                                    );
-                                  });
-                                }}
-                              >
-                                <option value="new">New</option>
-                                <option value="contacted">Contacted</option>
-                                <option value="qualified">Qualified</option>
-                                <option value="converted">Converted</option>
-                                <option value="closed">Closed</option>
-                              </select>
-                              <button
-                                type="button"
-                                disabled={isPending || lead.status === "converted"}
-                                className="inline-flex h-8 items-center gap-1 rounded-full border border-brand/15 bg-white px-3 text-xs font-semibold text-brand transition-colors hover:bg-brand/[0.05] disabled:cursor-not-allowed disabled:opacity-60"
-                                onClick={() => {
-                                  void convertLead(lead.id).catch((convertError) => {
-                                    setError(
-                                      convertError instanceof Error
-                                        ? convertError.message
-                                        : "Unable to convert lead",
-                                    );
-                                  });
-                                }}
-                              >
-                                {isPending ? <Loader2 className="size-3.5 animate-spin" /> : <UserCheck className="size-3.5" />}
-                                Convert
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
-
-          <div className="space-y-4">
-            <div className="surface-solid border-brand/10 bg-white/95 p-5">
-              <h3 className="text-sm font-semibold text-brand">Create Booking Slot</h3>
-              <p className="mt-1 text-xs text-muted-foreground">Add available consultation windows for bookings.</p>
-
-              <form className="mt-4 space-y-3" onSubmit={createSlot}>
-                <label className="space-y-1 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                  Start
-                  <input
-                    type="datetime-local"
-                    value={slotForm.startsAt}
-                    onChange={(event) =>
-                      setSlotForm((current) => ({ ...current, startsAt: event.target.value }))
-                    }
-                    required
-                    className="h-10 w-full rounded-xl border border-border bg-white px-3 text-sm text-foreground outline-none transition-colors focus:border-brand/35"
-                  />
-                </label>
-
-                <label className="space-y-1 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                  End
-                  <input
-                    type="datetime-local"
-                    value={slotForm.endsAt}
-                    onChange={(event) =>
-                      setSlotForm((current) => ({ ...current, endsAt: event.target.value }))
-                    }
-                    required
-                    className="h-10 w-full rounded-xl border border-border bg-white px-3 text-sm text-foreground outline-none transition-colors focus:border-brand/35"
-                  />
-                </label>
-
-                <label className="space-y-1 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                  Timezone
-                  <input
-                    type="text"
-                    value={slotForm.timezone}
-                    onChange={(event) =>
-                      setSlotForm((current) => ({ ...current, timezone: event.target.value }))
-                    }
-                    className="h-10 w-full rounded-xl border border-border bg-white px-3 text-sm text-foreground outline-none transition-colors focus:border-brand/35"
-                  />
-                </label>
-
-                <button
-                  type="submit"
-                  disabled={savingSlot}
-                  className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-full bg-brand px-4 text-sm font-semibold text-brand-foreground transition-opacity disabled:cursor-not-allowed disabled:opacity-70"
-                >
-                  {savingSlot ? <Loader2 className="size-4 animate-spin" /> : <Plus className="size-4" />}
-                  {savingSlot ? "Saving..." : "Add Slot"}
-                </button>
-              </form>
-            </div>
-
-            <div className="surface-solid border-brand/10 bg-white/95 p-5">
-              <h3 className="text-sm font-semibold text-brand">Upcoming Slots</h3>
-              <div className="mt-3 max-h-80 space-y-2 overflow-auto">
-                {slots.length === 0 ? (
-                  <p className="text-xs text-muted-foreground">No slots created yet.</p>
-                ) : (
-                  slots.map((slot) => (
-                    <div key={slot.id} className="rounded-xl border border-border bg-white p-3 text-xs">
-                      <p className="font-medium text-foreground">{new Date(slot.starts_at).toLocaleString("en-CA")}</p>
-                      <p className="mt-1 text-muted-foreground">Ends: {new Date(slot.ends_at).toLocaleString("en-CA")}</p>
-                      <p className="mt-1 text-muted-foreground">{slot.timezone}</p>
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => setActiveSection(item.id)}
+                      className={cn(
+                        "flex w-full items-center justify-between rounded-xl border px-3 py-3 text-left transition-colors",
+                        isActive
+                          ? "border-[#062B68] bg-[#062B68] text-white"
+                          : "border-slate-200 bg-white text-slate-700 hover:border-[#FEBF04] hover:bg-[#FFF9E8]",
+                      )}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <ItemIcon className="size-4" />
+                        <div>
+                          <p className="text-sm font-semibold">{item.label}</p>
+                          <p className={cn("text-xs", isActive ? "text-white/75" : "text-slate-500")}>{item.hint}</p>
+                        </div>
+                      </div>
                       <span
-                        className={`mt-2 inline-flex rounded-full px-2 py-0.5 font-semibold ${slot.is_active ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-600"}`}
+                        className={cn(
+                          "rounded-md px-2 py-0.5 text-xs font-semibold",
+                          isActive ? "bg-white/15 text-white" : "bg-[#FFF4CC] text-[#7A5A00]",
+                        )}
                       >
-                        {slot.is_active ? "Active" : "Inactive"}
+                        {item.count}
                       </span>
-                    </div>
-                  ))
-                )}
+                    </button>
+                  );
+                })}
+              </nav>
+
+              <div className="mt-auto rounded-xl bg-[#062B68] p-4 text-white">
+                <p className="text-xs uppercase tracking-[0.14em] text-white/75">Last Sync</p>
+                <p className="mt-1 text-lg font-semibold">{lastUpdatedLabel || "--:--"}</p>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  className="mt-3 w-full bg-[#FEBF04] text-[#062B68] hover:bg-[#f3b400]"
+                  onClick={() => void refreshData(true)}
+                  disabled={refreshing || loading}
+                >
+                  {refreshing || loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : <RefreshCw className="mr-2 size-4" />}
+                  Refresh Data
+                </Button>
               </div>
             </div>
-          </div>
+          </aside>
+
+          <main className="space-y-4">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              <div className="h-1 w-16 rounded-full bg-[#FEBF04]" />
+              <div className="mt-3 flex flex-wrap items-start justify-between gap-4">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.14em] text-[#062B68]">TrustEdge Admin</p>
+                  <h1 className="mt-1 text-2xl font-semibold text-[#062B68]">{sectionMeta[activeSection].title}</h1>
+                  <p className="mt-1 text-sm text-slate-600">{sectionMeta[activeSection].description}</p>
+                </div>
+                <Button type="button" variant="outline" onClick={() => void refreshData(true)} disabled={refreshing || loading}>
+                  {refreshing || loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : <RefreshCw className="mr-2 size-4" />}
+                  Refresh
+                </Button>
+              </div>
+            </div>
+
+            {error ? (
+              <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
+            ) : null}
+
+            {activeSection === "dashboard" ? (
+              <>
+                <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                  {stats.map((stat) => (
+                    <Card key={stat.label} className="border-slate-200">
+                      <CardHeader className="pb-2">
+                        <CardDescription className="text-xs uppercase tracking-[0.14em] text-[#062B68]/80">{stat.label}</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-3xl font-semibold text-[#062B68]">{stat.value}</p>
+                        <div className="mt-3 h-1 w-10 rounded-full bg-[#FEBF04]" />
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+
+                <Card className="border-slate-200">
+                  <CardHeader>
+                    <CardTitle>Recent Leads</CardTitle>
+                    <CardDescription>Latest lead entries at a glance.</CardDescription>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    {loading ? (
+                      <div className="flex items-center gap-2 py-6 text-sm text-slate-500">
+                        <Loader2 className="size-4 animate-spin" />
+                        Loading recent leads...
+                      </div>
+                    ) : recentLeads.length === 0 ? (
+                      <p className="py-6 text-sm text-slate-500">No leads yet.</p>
+                    ) : (
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead>Lead</TableHead>
+                            <TableHead>Status</TableHead>
+                            <TableHead>Source</TableHead>
+                            <TableHead>Created</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {recentLeads.map((lead) => (
+                            <TableRow key={lead.id}>
+                              <TableCell>
+                                <p className="font-medium text-[#062B68]">{lead.name}</p>
+                                <p className="text-xs text-slate-500">{lead.email}</p>
+                              </TableCell>
+                              <TableCell>
+                                <span
+                                  className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${statusBadgeClass[lead.status]}`}
+                                >
+                                  {statusLabel[lead.status]}
+                                </span>
+                              </TableCell>
+                              <TableCell className="text-xs text-slate-600">{lead.source}</TableCell>
+                              <TableCell className="text-xs text-slate-500">{formatDateTime(lead.created_at)}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    )}
+                  </CardContent>
+                </Card>
+              </>
+            ) : null}
+
+            {activeSection === "leads" ? (
+              <Card className="border-slate-200">
+                <CardHeader className="pb-4">
+                  <CardTitle>Lead Pipeline</CardTitle>
+                  <CardDescription>
+                    Showing {visibleLeads.length} of {dashboard?.leads.length ?? 0} leads.
+                  </CardDescription>
+
+                  <div className="mt-2 grid gap-3 md:grid-cols-[minmax(0,1fr)_12rem]">
+                    <div className="relative">
+                      <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
+                      <Input
+                        type="search"
+                        placeholder="Search name, email, phone, source"
+                        value={searchQuery}
+                        onChange={(event) => setSearchQuery(event.target.value)}
+                        className="border-slate-200 pl-10"
+                      />
+                    </div>
+                    <Select
+                      value={statusFilter}
+                      onChange={(event) => setStatusFilter(event.target.value as StatusFilter)}
+                      className="border-slate-200"
+                    >
+                      {statusFilters.map((filter) => (
+                        <option key={filter.value} value={filter.value}>
+                          {filter.label}
+                        </option>
+                      ))}
+                    </Select>
+                  </div>
+                </CardHeader>
+
+                <CardContent className="pt-0">
+                  {loading ? (
+                    <div className="flex items-center gap-2 py-6 text-sm text-slate-500">
+                      <Loader2 className="size-4 animate-spin" />
+                      Loading leads...
+                    </div>
+                  ) : visibleLeads.length === 0 ? (
+                    <div className="py-6 text-sm text-slate-500">No leads match the current filters.</div>
+                  ) : (
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Lead</TableHead>
+                          <TableHead>Contact</TableHead>
+                          <TableHead>Source</TableHead>
+                          <TableHead>Service</TableHead>
+                          <TableHead>Status</TableHead>
+                          <TableHead>Created</TableHead>
+                          <TableHead className="min-w-52">Actions</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {visibleLeads.map((lead) => {
+                          const isPending = pendingLeadId === lead.id;
+
+                          return (
+                            <TableRow key={lead.id}>
+                              <TableCell>
+                                <p className="font-medium text-[#062B68]">{lead.name}</p>
+                                <p className="text-xs text-slate-500">{lead.email}</p>
+                              </TableCell>
+                              <TableCell className="text-xs text-slate-600">{lead.phone}</TableCell>
+                              <TableCell className="text-xs text-slate-600">{lead.source}</TableCell>
+                              <TableCell className="text-xs text-slate-600">{lead.service_interest ?? "-"}</TableCell>
+                              <TableCell>
+                                <span
+                                  className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${statusBadgeClass[lead.status]}`}
+                                >
+                                  {statusLabel[lead.status]}
+                                </span>
+                              </TableCell>
+                              <TableCell className="text-xs text-slate-500">{formatDateTime(lead.created_at)}</TableCell>
+                              <TableCell>
+                                <div className="flex items-center gap-2">
+                                  <Select
+                                    value={lead.status}
+                                    disabled={isPending}
+                                    className="h-8 min-w-28 border-slate-200 text-xs"
+                                    onChange={(event) => {
+                                      void updateLeadStatus(lead.id, event.target.value as LeadStatus);
+                                    }}
+                                  >
+                                    {leadStatusOptions.map((option) => (
+                                      <option key={option} value={option}>
+                                        {statusLabel[option]}
+                                      </option>
+                                    ))}
+                                  </Select>
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    className="border-[#062B68]/30 text-[#062B68] hover:bg-[#FFF9E8]"
+                                    disabled={isPending || lead.status === "converted"}
+                                    onClick={() => {
+                                      void convertLead(lead.id);
+                                    }}
+                                  >
+                                    {isPending ? (
+                                      <Loader2 className="mr-1 size-3.5 animate-spin" />
+                                    ) : (
+                                      <UserCheck className="mr-1 size-3.5" />
+                                    )}
+                                    Convert
+                                  </Button>
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })}
+                      </TableBody>
+                    </Table>
+                  )}
+                </CardContent>
+              </Card>
+            ) : null}
+
+            {activeSection === "slots" ? (
+              <div className="grid gap-4 xl:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
+                <Card className="border-slate-200">
+                  <CardHeader>
+                    <CardTitle>Create Booking Slot</CardTitle>
+                    <CardDescription>Add available consultation windows for booking requests.</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <form className="space-y-3" onSubmit={createSlot}>
+                      <div className="space-y-1">
+                        <label className="text-xs font-medium text-slate-600" htmlFor="slot-start">
+                          Start
+                        </label>
+                        <Input
+                          id="slot-start"
+                          type="datetime-local"
+                          value={slotForm.startsAt}
+                          onChange={(event) => setSlotForm((current) => ({ ...current, startsAt: event.target.value }))}
+                          className="border-slate-200"
+                          required
+                        />
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="text-xs font-medium text-slate-600" htmlFor="slot-end">
+                          End
+                        </label>
+                        <Input
+                          id="slot-end"
+                          type="datetime-local"
+                          value={slotForm.endsAt}
+                          onChange={(event) => setSlotForm((current) => ({ ...current, endsAt: event.target.value }))}
+                          className="border-slate-200"
+                          required
+                        />
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="text-xs font-medium text-slate-600" htmlFor="slot-timezone">
+                          Timezone
+                        </label>
+                        <Input
+                          id="slot-timezone"
+                          type="text"
+                          value={slotForm.timezone}
+                          onChange={(event) => setSlotForm((current) => ({ ...current, timezone: event.target.value }))}
+                          className="border-slate-200"
+                        />
+                      </div>
+
+                      <Button
+                        type="submit"
+                        disabled={savingSlot}
+                        className="w-full bg-[#062B68] text-white hover:bg-[#041f4c]"
+                      >
+                        {savingSlot ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
+                        {savingSlot ? "Saving..." : "Add Slot"}
+                      </Button>
+                    </form>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-slate-200">
+                  <CardHeader>
+                    <CardTitle>Upcoming Slots</CardTitle>
+                    <CardDescription>{slots.length} total slot records</CardDescription>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <div className="max-h-[34rem] space-y-3 overflow-auto pr-1">
+                      {slots.length === 0 ? (
+                        <p className="py-2 text-sm text-slate-500">No slots created yet.</p>
+                      ) : (
+                        slots.map((slot) => (
+                          <div key={slot.id} className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+                            <p className="text-sm font-semibold text-[#062B68]">{formatDateTime(slot.starts_at)}</p>
+                            <p className="mt-1 text-xs text-slate-600">Ends: {formatDateTime(slot.ends_at)}</p>
+                            <p className="mt-1 text-xs text-slate-500">{slot.timezone}</p>
+                            <span
+                              className={cn(
+                                "mt-2 inline-flex rounded-full px-2.5 py-1 text-xs font-semibold",
+                                slot.is_active ? "bg-[#FFF4CC] text-[#7A5A00]" : "bg-slate-200 text-slate-600",
+                              )}
+                            >
+                              {slot.is_active ? "Active" : "Inactive"}
+                            </span>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            ) : null}
+          </main>
         </div>
       </div>
     </section>

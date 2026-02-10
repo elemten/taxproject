@@ -88,7 +88,7 @@ export default function Home() {
               </div>
 
               <div className="hidden lg:block lg:col-span-5 lg:justify-self-end">
-                <BookingConsultationCard className="shadow-2xl" />
+                <BookingConsultationCard className="shadow-2xl lg:h-[500px]" />
               </div>
             </div>
           </div>

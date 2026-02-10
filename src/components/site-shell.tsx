@@ -14,7 +14,7 @@ export function SiteShell({ children }: SiteShellProps) {
   const isAdminRoute = pathname?.startsWith("/admin") ?? false;
 
   return (
-    <div className="relative min-h-dvh bg-background">
+    <div className={`relative min-h-dvh ${isAdminRoute ? "bg-slate-100" : "bg-background"}`}>
       {!isAdminRoute ? <AmbientBackground /> : null}
       <div className="relative z-10">
         {!isAdminRoute ? <SiteHeader /> : null}
