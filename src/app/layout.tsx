@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
 import { StructuredData } from "@/components/structured-data";
-import { AmbientBackground } from "@/components/ambient-background";
+import { SiteShell } from "@/components/site-shell";
 import { getSiteUrl } from "@/lib/site-url";
 
 const geistSans = Geist({
@@ -70,14 +68,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <StructuredData />
-        <div className="relative min-h-dvh bg-background">
-          <AmbientBackground />
-          <div className="relative z-10">
-            <SiteHeader />
-            <main>{children}</main>
-            <SiteFooter />
-          </div>
-        </div>
+        <SiteShell>{children}</SiteShell>
       </body>
     </html>
   );

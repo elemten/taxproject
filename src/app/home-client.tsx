@@ -5,7 +5,6 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { site } from "@/lib/site";
 import { ServiceCard } from "@/components/service-card";
-import { LeadForm } from "@/components/lead-form";
 import { TeamCard } from "@/components/team-card";
 import { BookingConsultationCard } from "@/components/booking-consultation-card";
 import { easing, staggerContainer } from "@/lib/animations";
@@ -333,10 +332,7 @@ export default function Home() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.7, delay: 0.2, ease: easing.easeOutExpo }}
             >
-              <LeadForm
-                title="Quick request"
-                subtitle="Leave your details and we'll reply with next steps."
-              />
+              <BookingConsultationCard />
             </motion.div>
           </div>
         </div>

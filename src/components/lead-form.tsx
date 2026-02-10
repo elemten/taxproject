@@ -12,21 +12,60 @@ type LeadFormProps = {
   className?: string;
 };
 
+type FormState = "idle" | "submitting" | "success" | "error";
+
 export function LeadForm({ title, subtitle, className }: LeadFormProps) {
-  const [hasPreviewSubmit, setHasPreviewSubmit] = useState(false);
+  const [formState, setFormState] = useState<FormState>("idle");
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const formId = useId();
   const shouldReduceMotion = useReducedMotion();
-  
-  const statusText = useMemo(() => {
-    if (hasPreviewSubmit) {
-      return "Online form delivery is being finalized. Please call or email us now for immediate assistance.";
-    }
-    return "For the fastest response, call or email us directly and we will confirm next steps right away.";
-  }, [hasPreviewSubmit]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const statusText = useMemo(() => {
+    if (formState === "success") {
+      return "Thanks. Your request has been received. Our team will follow up shortly.";
+    }
+
+    if (formState === "error") {
+      return errorMessage || "Unable to send your request right now. Please try again.";
+    }
+
+    return "For the fastest response, call or email us directly and we will confirm next steps right away.";
+  }, [formState, errorMessage]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setHasPreviewSubmit(true);
+    setFormState("submitting");
+    setErrorMessage("");
+
+    const formData = new FormData(e.currentTarget);
+    const payload = {
+      fullName: String(formData.get("fullName") ?? ""),
+      phone: String(formData.get("phone") ?? ""),
+      email: String(formData.get("email") ?? ""),
+      serviceInterest: String(formData.get("serviceInterest") ?? ""),
+      message: String(formData.get("message") ?? ""),
+    };
+
+    try {
+      const response = await fetch("/api/contact/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const result = (await response.json().catch(() => null)) as { error?: string } | null;
+        throw new Error(result?.error ?? "Failed to submit form");
+      }
+
+      e.currentTarget.reset();
+      setFormState("success");
+    } catch (error) {
+      setFormState("error");
+      setErrorMessage(error instanceof Error ? error.message : "Failed to submit form");
+    }
   };
 
   return (
@@ -42,7 +81,6 @@ export function LeadForm({ title, subtitle, className }: LeadFormProps) {
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, ease: easing.easeOutExpo }}
     >
-      {/* Decorative top accent */}
       <motion.div
         className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-brand"
         initial={shouldReduceMotion ? { scaleX: 1 } : { scaleX: 0 }}
@@ -52,7 +90,6 @@ export function LeadForm({ title, subtitle, className }: LeadFormProps) {
       />
 
       <div className="relative space-y-6">
-        {/* Header */}
         <motion.div
           className="space-y-3"
           initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0 }}
@@ -75,13 +112,12 @@ export function LeadForm({ title, subtitle, className }: LeadFormProps) {
           </div>
         </motion.div>
 
-        {/* Form Fields */}
         <div className="space-y-5">
           {subtitle ? <p className="sr-only">{subtitle}</p> : null}
           <div className="grid gap-5 sm:grid-cols-2">
             <Field
               label="Full name"
-              name="name"
+              name="fullName"
               autoComplete="name"
               placeholder="Jane Smith"
               delay={0.1}
@@ -103,39 +139,43 @@ export function LeadForm({ title, subtitle, className }: LeadFormProps) {
               delay={0.2}
             />
             <Field
+              label="Service"
+              name="serviceInterest"
+              placeholder="Personal Tax, Corporate Tax, Estate Planning"
+              className="sm:col-span-2"
+              delay={0.25}
+            />
+            <Field
               label="How can we help?"
               name="message"
               as="textarea"
               placeholder="Tell us what you need help with."
               className="sm:col-span-2"
-              delay={0.25}
+              delay={0.3}
             />
           </div>
         </div>
 
-        {/* Submit Section */}
         <motion.div
           className="pt-2"
           initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.5 }}
+          transition={{ delay: 0.35, duration: 0.5 }}
         >
           <motion.button
             type="submit"
-            className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-brand px-8 text-sm font-semibold text-brand-foreground shadow-md transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-70 disabled:cursor-not-allowed"
+            className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-brand px-8 text-sm font-semibold text-brand-foreground shadow-md transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-70"
             whileHover={shouldReduceMotion ? {} : { scale: 1.02, y: -2 }}
             whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
             transition={{ type: "spring", stiffness: 500, damping: 30 }}
+            disabled={formState === "submitting"}
           >
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              Submit request
+            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+              {formState === "submitting" ? "Submitting..." : "Submit request"}
             </motion.span>
           </motion.button>
-          
+
           <div
             id={`${formId}-status`}
             className="mt-4 text-center"
@@ -144,12 +184,14 @@ export function LeadForm({ title, subtitle, className }: LeadFormProps) {
           >
             <AnimatePresence mode="wait">
               <motion.p
-                key={hasPreviewSubmit ? "submitted" : "idle"}
+                key={formState}
                 className={cn(
                   "text-xs",
-                  hasPreviewSubmit
-                    ? "font-medium text-amber-700"
-                    : "text-muted-foreground",
+                  formState === "success"
+                    ? "font-medium text-emerald-700"
+                    : formState === "error"
+                      ? "font-medium text-red-700"
+                      : "text-muted-foreground",
                 )}
                 initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -208,6 +250,7 @@ function Field({
           className={inputClass}
           autoComplete={autoComplete}
           placeholder={placeholder}
+          required={name !== "serviceInterest"}
         />
       ) : (
         <input
@@ -216,6 +259,7 @@ function Field({
           className={inputClass}
           autoComplete={autoComplete}
           placeholder={placeholder}
+          required={name !== "serviceInterest"}
         />
       )}
     </motion.label>

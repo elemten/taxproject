@@ -5,7 +5,7 @@ import { AdminPageClient } from "./client";
 export const metadata: Metadata = buildPageMetadata({
   title: "Admin Leads",
   description:
-    "Internal mock admin leads dashboard showing sample lead pipeline data for TrustEdge Tax Services.",
+    "Internal admin dashboard for leads, booking slots, and client workflow at TrustEdge Tax Services.",
   path: "/admin",
 });
 
