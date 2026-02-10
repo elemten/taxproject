@@ -299,13 +299,13 @@ export function BookingConsultationCard({ className }: BookingConsultationCardPr
       aria-label="Book a consultation"
       className={cn(
         // Apple-ish glass surface
-        "relative w-full max-w-none sm:max-w-[440px] overflow-hidden",
+        "relative w-full max-w-none sm:max-w-[440px] overflow-visible lg:overflow-hidden",
         "rounded-3xl border border-white/15 bg-[#F6F2E8]/95 backdrop-blur-xl",
         "shadow-[0_30px_80px_-40px_rgba(0,0,0,0.55)]",
         // layout
         "p-4 sm:p-5",
         // keep it sane inside hero + on mobile
-        "max-h-[min(78vh,560px)]",
+        "max-h-none lg:max-h-[min(78vh,560px)]",
         className,
       )}
       initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 18, scale: 0.985 }}
@@ -373,7 +373,7 @@ export function BookingConsultationCard({ className }: BookingConsultationCardPr
         </div>
 
         {/* Body - single scroll area */}
-        <div className="min-h-0 flex-1 overflow-y-auto pr-1 [scrollbar-gutter:stable]">
+        <div className="min-h-0 overflow-visible pr-0 lg:flex-1 lg:overflow-y-auto lg:pr-1 lg:[scrollbar-gutter:stable]">
           <div className="space-y-3">
             {/* Step 1 */}
             <div className="rounded-2xl bg-white/7 ring-1 ring-white/10 p-3">
