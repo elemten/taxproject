@@ -58,32 +58,47 @@ export default function Home() {
                   with a clear checklist, careful review, and calm communication.
                 </motion.p>
                 <motion.div
-                  className="flex flex-col gap-3 sm:flex-row sm:items-center"
+                  className="space-y-3"
                   initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.5, ease: easing.easeOutExpo }}
                 >
+                  <div className="grid grid-cols-2 gap-3">
+                    <motion.div
+                      whileHover={{ scale: shouldReduceMotion ? 1 : 1.02 }}
+                      whileTap={{ scale: shouldReduceMotion ? 1 : 0.98 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                    >
+                      <Link
+                        href="/contact"
+                        className="inline-flex h-11 w-full items-center justify-center rounded-full bg-brand px-3 text-sm font-semibold text-brand-foreground shadow-sm transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      >
+                        CONTACT US
+                      </Link>
+                    </motion.div>
+                    <motion.a
+                      href={`tel:${site.phoneHref}`}
+                      className="inline-flex h-11 w-full items-center justify-center rounded-full border border-brand/25 bg-white/75 px-3 text-sm font-semibold text-brand shadow-sm transition-colors hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      whileHover={{ scale: shouldReduceMotion ? 1 : 1.02 }}
+                      whileTap={{ scale: shouldReduceMotion ? 1 : 0.98 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                    >
+                      Call {site.phone}
+                    </motion.a>
+                  </div>
                   <motion.div
                     whileHover={{ scale: shouldReduceMotion ? 1 : 1.02 }}
                     whileTap={{ scale: shouldReduceMotion ? 1 : 0.98 }}
                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
                   >
                     <Link
-                      href="/contact"
-                      className="inline-flex h-11 items-center justify-center rounded-full bg-brand px-6 text-sm font-semibold text-brand-foreground shadow-sm transition-colors hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      href="/#book"
+                      className="group relative inline-flex h-12 w-full items-center justify-center overflow-hidden rounded-2xl border border-brand/30 bg-gradient-to-r from-brand via-[#17499a] to-brand px-5 text-sm font-semibold text-brand-foreground shadow-lg transition-all hover:brightness-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
-                      CONTACT US
+                      <span className="absolute inset-y-0 -left-1/3 w-1/3 -skew-x-12 bg-white/25 opacity-0 blur-sm transition-all duration-500 group-hover:left-full group-hover:opacity-100" />
+                      Tap to Book a Free Consultation
                     </Link>
                   </motion.div>
-                  <motion.a
-                    href={`tel:${site.phoneHref}`}
-                    className="inline-flex h-11 items-center justify-center rounded-full border border-brand/25 bg-white/75 px-6 text-sm font-semibold text-brand shadow-sm transition-colors hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    whileHover={{ scale: shouldReduceMotion ? 1 : 1.02 }}
-                    whileTap={{ scale: shouldReduceMotion ? 1 : 0.98 }}
-                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                  >
-                    Call {site.phone}
-                  </motion.a>
                 </motion.div>
               </div>
 

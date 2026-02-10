@@ -330,13 +330,22 @@ export function SiteHeader() {
                           duration: 0.3,
                         }}
                       >
-                        <Link
-                          href="/contact"
-                          className="inline-flex h-12 w-full items-center justify-center rounded-full bg-brand px-4 text-base font-semibold text-brand-foreground shadow-sm hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          Contact Us
-                        </Link>
+                        <div className="space-y-3">
+                          <Link
+                            href="/contact"
+                            className="inline-flex h-12 w-full items-center justify-center rounded-full bg-brand px-4 text-base font-semibold text-brand-foreground shadow-sm hover:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            Contact Us
+                          </Link>
+                          <Link
+                            href="/#book"
+                            className="inline-flex h-12 w-full items-center justify-center rounded-full border border-brand/30 bg-brand/10 px-4 text-base font-semibold text-brand shadow-sm transition-colors hover:bg-brand/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            Book a Free Consultation
+                          </Link>
+                        </div>
                       </motion.div>
                     </div>
                   </motion.div>
