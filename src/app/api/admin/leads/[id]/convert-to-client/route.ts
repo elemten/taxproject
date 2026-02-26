@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseServiceClient } from "@/lib/supabase/server";
 import { convertLeadSchema } from "@/lib/server/validation";
 import { jsonError, noStoreHeaders } from "@/lib/server/http";
+import { enqueueIntegrationJob } from "@/lib/server/integration-job-queue";
 
 export const runtime = "edge";
 
@@ -27,6 +28,19 @@ export async function POST(request: NextRequest, context: RouteContext) {
 
   if (error || !data) {
     return jsonError(`Failed to convert lead: ${error?.message ?? "Unknown error"}`, 500);
+  }
+
+  try {
+    await enqueueIntegrationJob({
+      jobType: "ensure_folder",
+      payload: {
+        clientId: data,
+        leadId: id,
+      },
+      idempotencyKey: `ensure_folder:client:${data}`,
+    });
+  } catch (enqueueError) {
+    console.error("Failed to enqueue ensure_folder job", enqueueError);
   }
 
   return NextResponse.json(

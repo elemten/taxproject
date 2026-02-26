@@ -3,6 +3,7 @@ import { jsonError, noStoreHeaders } from "@/lib/server/http";
 import { bookingReserveSchema } from "@/lib/server/validation";
 import { getSupabaseServiceClient } from "@/lib/supabase/server";
 import { sendBookingNotification } from "@/lib/server/notifications";
+import { enqueueIntegrationJob } from "@/lib/server/integration-job-queue";
 
 export const runtime = "edge";
 
@@ -63,6 +64,19 @@ export async function POST(request: NextRequest) {
     slotStart: first.slot_start,
     timezone: first.slot_timezone,
   });
+
+  try {
+    await enqueueIntegrationJob({
+      jobType: "create_zoom_meeting",
+      payload: {
+        bookingId: first.booking_id,
+        leadId: first.lead_id,
+      },
+      idempotencyKey: `create_zoom_meeting:${first.booking_id}`,
+    });
+  } catch (error) {
+    console.error("Failed to enqueue create_zoom_meeting job", error);
+  }
 
   return NextResponse.json(
     {

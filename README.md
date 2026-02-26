@@ -37,7 +37,29 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - `WHATSAPP_ACCESS_TOKEN`
 - `WHATSAPP_PHONE_NUMBER_ID`
 - `WHATSAPP_BUSINESS_NUMBER`
+- `WHATSAPP_WEBHOOK_VERIFY_TOKEN`
+- `WHATSAPP_APP_SECRET`
+- `WHATSAPP_TEMPLATE_NAME`
+- `WHATSAPP_TEMPLATE_LANGUAGE`
+- `ZOOM_ACCOUNT_ID`
+- `ZOOM_CLIENT_ID`
+- `ZOOM_CLIENT_SECRET`
+- `ZOOM_USER_ID`
+- `GOOGLE_DRIVE_SERVICE_ACCOUNT_EMAIL`
+- `GOOGLE_DRIVE_PRIVATE_KEY`
+- `GOOGLE_DRIVE_ROOT_FOLDER_ID`
+- `INTERNAL_JOB_RUNNER_TOKEN`
 - `NEXT_PUBLIC_DEFAULT_TIMEZONE`
+
+### Integration endpoints
+
+- WhatsApp webhook verify + ingest: `GET/POST /api/whatsapp/webhook`
+- Background worker runner: `POST /api/internal/integration-jobs/run`
+
+For the worker runner, send either `Authorization: Bearer <INTERNAL_JOB_RUNNER_TOKEN>` or
+`x-job-runner-token: <INTERNAL_JOB_RUNNER_TOKEN>`.
+
+Recommended schedule: call the worker endpoint every 1 minute from your platform cron system.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
