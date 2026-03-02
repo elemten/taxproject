@@ -27,7 +27,7 @@ async function sendBookingConfirmationEmail(input: BookingConfirmationInput) {
   const env = getEnv();
 
   if (!env.RESEND_API_KEY || !env.NOTIFICATION_EMAIL_FROM) {
-    throw new Error("Booking confirmation email environment variables are not fully configured");
+    throw new Error("Resend email environment variables are not fully configured");
   }
 
   const slotLabel = formatSlotLabel(input.slotStart, input.timezone);

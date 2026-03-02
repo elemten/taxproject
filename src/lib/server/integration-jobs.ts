@@ -3,7 +3,7 @@ import { getEnv } from "@/lib/server/env";
 import { getRetryDelaySeconds } from "@/lib/server/retry";
 import { normalizePhoneKey } from "@/lib/server/phone";
 import { createZoomMeeting, zoomConfigured } from "@/lib/server/integrations/zoom";
-import { driveConfigured, ensureDriveFolder, uploadDriveFile } from "@/lib/server/integrations/google-drive";
+import { ensureSupabaseFolder, supabaseStorageConfigured, uploadSupabaseFile } from "@/lib/server/integrations/supabase-storage";
 import { downloadWhatsAppMedia, getWhatsAppMediaMetadata } from "@/lib/server/integrations/whatsapp";
 import { sendClientBookingConfirmation } from "@/lib/server/client-confirmations";
 import { enqueueIntegrationJob, type IntegrationJobType } from "@/lib/server/integration-job-queue";
@@ -304,8 +304,8 @@ async function handleEnsureFolder(payload: Record<string, unknown>) {
   const phoneKeyFromPayload = asString(payload.phoneKey);
   const senderPhone = asString(payload.senderPhone);
 
-  if (!driveConfigured()) {
-    throw new Error("Google Drive integration is not configured");
+  if (!supabaseStorageConfigured()) {
+    throw new Error("Supabase Storage integration is not configured");
   }
 
   if (clientId) {
@@ -333,8 +333,8 @@ async function handleProcessWhatsAppMedia(payload: Record<string, unknown>) {
     throw new Error("process_whatsapp_media payload is incomplete");
   }
 
-  if (!driveConfigured()) {
-    throw new Error("Google Drive integration is not configured");
+  if (!supabaseStorageConfigured()) {
+    throw new Error("Supabase Storage integration is not configured");
   }
 
   const senderPhoneKey = normalizePhoneKey(fromPhone);
@@ -363,8 +363,8 @@ async function handleProcessWhatsAppMedia(payload: Record<string, unknown>) {
     fallbackFileName ||
     `${mediaType}-${messageId}${extensionFromMime(mimeType)}`;
 
-  const uploaded = await uploadDriveFile({
-    folderId: externalFolder.provider_folder_id,
+  const uploaded = await uploadSupabaseFile({
+    folderPath: externalFolder.provider_folder_id,
     fileName,
     mimeType,
     data: mediaDownload.data,
@@ -420,14 +420,13 @@ async function ensureClientFolder(clientId: string) {
   }
 
   const env = getEnv();
-  if (!env.GOOGLE_DRIVE_ROOT_FOLDER_ID) {
-    throw new Error("GOOGLE_DRIVE_ROOT_FOLDER_ID is not configured");
+  if (!env.SUPABASE_STORAGE_ROOT_PATH) {
+    throw new Error("SUPABASE_STORAGE_ROOT_PATH is not configured");
   }
 
-  const folderName = `Client - ${safeFileName(client.name)} - ${client.id.slice(0, 8)}`;
-  const rootFolder = await ensureDriveFolder({
-    name: folderName,
-    parentFolderId: env.GOOGLE_DRIVE_ROOT_FOLDER_ID,
+  const folderPath = `${trimSlashes(env.SUPABASE_STORAGE_ROOT_PATH)}/clients/${client.id}`;
+  const rootFolder = await ensureSupabaseFolder({
+    folderPath,
   });
 
   const { data: inserted, error: insertError } = await supabase
@@ -436,7 +435,7 @@ async function ensureClientFolder(clientId: string) {
       entity_type: "client",
       entity_id: client.id,
       phone_key: null,
-      provider: "google_drive",
+      provider: "supabase_storage",
       provider_folder_id: rootFolder.id,
       path_label: rootFolder.name,
       is_active: true,
@@ -479,14 +478,13 @@ async function ensureProspectFolder(phoneKey: string) {
   }
 
   const env = getEnv();
-  if (!env.GOOGLE_DRIVE_ROOT_FOLDER_ID) {
-    throw new Error("GOOGLE_DRIVE_ROOT_FOLDER_ID is not configured");
+  if (!env.SUPABASE_STORAGE_ROOT_PATH) {
+    throw new Error("SUPABASE_STORAGE_ROOT_PATH is not configured");
   }
 
-  const folderName = `Prospect - ${phoneKey}`;
-  const folder = await ensureDriveFolder({
-    name: folderName,
-    parentFolderId: env.GOOGLE_DRIVE_ROOT_FOLDER_ID,
+  const folderPath = `${trimSlashes(env.SUPABASE_STORAGE_ROOT_PATH)}/prospects/${phoneKey}`;
+  const folder = await ensureSupabaseFolder({
+    folderPath,
   });
 
   const { data: inserted, error } = await supabase
@@ -495,7 +493,7 @@ async function ensureProspectFolder(phoneKey: string) {
       entity_type: "prospect_phone",
       entity_id: null,
       phone_key: phoneKey,
-      provider: "google_drive",
+      provider: "supabase_storage",
       provider_folder_id: folder.id,
       path_label: folder.name,
       is_active: true,
@@ -621,8 +619,8 @@ function asString(value: unknown) {
   return typeof value === "string" && value.length > 0 ? value : null;
 }
 
-function safeFileName(value: string) {
-  return value.replace(/[^a-zA-Z0-9\s-]/g, "").trim().replace(/\s+/g, " ") || "Client";
+function trimSlashes(value: string) {
+  return value.replace(/^\/+|\/+$/g, "");
 }
 
 function extensionFromMime(mimeType: string) {

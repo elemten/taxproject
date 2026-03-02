@@ -32,9 +32,8 @@ const envSchema = z.object({
   ZOOM_CLIENT_ID: optionalString(),
   ZOOM_CLIENT_SECRET: optionalString(),
   ZOOM_USER_ID: optionalString(),
-  GOOGLE_DRIVE_SERVICE_ACCOUNT_EMAIL: optionalEmail(),
-  GOOGLE_DRIVE_PRIVATE_KEY: optionalString(),
-  GOOGLE_DRIVE_ROOT_FOLDER_ID: optionalString(),
+  SUPABASE_STORAGE_BUCKET: optionalString(),
+  SUPABASE_STORAGE_ROOT_PATH: optionalString(),
   NEXT_PUBLIC_DEFAULT_TIMEZONE: z.string().default("America/Regina"),
 });
 
