@@ -3,6 +3,7 @@ import { getSupabaseServiceClient } from "@/lib/supabase/server";
 import { convertLeadSchema } from "@/lib/server/validation";
 import { jsonError, noStoreHeaders } from "@/lib/server/http";
 import { enqueueIntegrationJob } from "@/lib/server/integration-job-queue";
+import { triggerIntegrationWorker } from "@/lib/server/trigger-integration-worker";
 
 export const runtime = "edge";
 
@@ -42,6 +43,8 @@ export async function POST(request: NextRequest, context: RouteContext) {
   } catch (enqueueError) {
     console.error("Failed to enqueue ensure_folder job", enqueueError);
   }
+
+  await triggerIntegrationWorker(request.nextUrl.origin, 6);
 
   return NextResponse.json(
     {

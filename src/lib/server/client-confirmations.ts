@@ -1,5 +1,4 @@
 import { getEnv } from "@/lib/server/env";
-import { sendWhatsAppBookingTemplate } from "@/lib/server/integrations/whatsapp";
 
 type BookingConfirmationInput = {
   fullName: string;
@@ -12,15 +11,8 @@ type BookingConfirmationInput = {
 };
 
 export async function sendClientBookingConfirmation(input: BookingConfirmationInput) {
-  await Promise.all([
-    sendBookingConfirmationEmail(input),
-    sendWhatsAppBookingTemplate({
-      toPhone: input.phone,
-      clientName: input.fullName,
-      slotLabel: formatSlotLabel(input.slotStart, input.timezone),
-      zoomJoinUrl: input.zoomJoinUrl,
-    }),
-  ]);
+  // WhatsApp confirmation is temporarily disabled until client provides Meta credentials/templates.
+  await sendBookingConfirmationEmail(input);
 }
 
 async function sendBookingConfirmationEmail(input: BookingConfirmationInput) {

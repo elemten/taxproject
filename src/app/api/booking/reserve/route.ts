@@ -4,6 +4,7 @@ import { bookingReserveSchema } from "@/lib/server/validation";
 import { getSupabaseServiceClient } from "@/lib/supabase/server";
 import { sendBookingNotification } from "@/lib/server/notifications";
 import { enqueueIntegrationJob } from "@/lib/server/integration-job-queue";
+import { triggerIntegrationWorker } from "@/lib/server/trigger-integration-worker";
 
 export const runtime = "edge";
 
@@ -77,6 +78,8 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Failed to enqueue create_zoom_meeting job", error);
   }
+
+  await triggerIntegrationWorker(request.nextUrl.origin, 8);
 
   return NextResponse.json(
     {
