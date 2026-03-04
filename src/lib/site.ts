@@ -1,9 +1,9 @@
 export const site = {
   name: "TrustEdge Tax Services",
   personName: "Archana Kumari",
-  phone: "306-555-0123",
-  phoneHref: "+13065550123",
-  email: "contact@trustedgetax.ca",
+  phone: "(306) 993-6603",
+  phoneHref: "+13069936603",
+  email: "trustedge8@outlook.com",
   locationShort: "Saskatoon, SK",
   province: "Saskatchewan",
   country: "Canada",

@@ -126,7 +126,7 @@ export function LeadForm({ title, subtitle, className }: LeadFormProps) {
               label="Phone"
               name="phone"
               autoComplete="tel"
-              placeholder="(306) 555-0123"
+              placeholder="(306) 993-6603"
               delay={0.15}
             />
             <Field
