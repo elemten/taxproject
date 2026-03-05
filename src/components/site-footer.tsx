@@ -141,10 +141,6 @@ export function SiteFooter() {
           <p>
             © {new Date().getFullYear()} {site.name}. All rights reserved.
           </p>
-          <p>
-            This website is for informational purposes only and does not
-            constitute tax, legal, or financial advice.
-          </p>
         </motion.div>
       </div>
     </motion.footer>

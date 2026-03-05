@@ -50,10 +50,7 @@ export function StructuredData() {
         closes: "17:30",
       },
     ],
-    founder: {
-      "@type": "Person",
-      name: site.personName,
-    },
+    department: site.personName,
     address: {
       "@type": "PostalAddress",
       addressLocality: "Saskatoon",

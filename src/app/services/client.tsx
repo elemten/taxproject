@@ -37,7 +37,7 @@ export function ServicesPageClient() {
               viewport={{ once: true }}
               transition={{ delay: 0.15, duration: 0.6, ease: easing.easeOutExpo }}
             >
-              What we offer
+              Tax services in Saskatoon and Saskatchewan
             </motion.h1>
             <motion.p
               className="text-sm leading-7 text-muted-foreground sm:text-base"
@@ -47,6 +47,19 @@ export function ServicesPageClient() {
               transition={{ delay: 0.2, duration: 0.5 }}
             >
               Focused support for Saskatoon and Saskatchewan clients.
+            </motion.p>
+            <motion.p
+              className="text-sm leading-7 text-muted-foreground sm:text-base"
+              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.24, duration: 0.5 }}
+            >
+              Need local context first? See our{" "}
+              <Link href="/saskatoon-tax-services" className="font-medium text-brand hover:underline">
+                Saskatoon tax services guide
+              </Link>
+              .
             </motion.p>
           </div>
 

@@ -3,9 +3,9 @@ import { ServicePage } from "@/components/service-page";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Personal Tax",
+  title: "Personal Tax Services",
   description:
-    "Personal tax services in Saskatoon, Saskatchewan — a clear checklist, careful review, and a calm filing process.",
+    "Personal tax services in Saskatoon and Saskatchewan with a clear checklist, careful review, and calm filing process.",
   path: "/services/personal-tax",
 });
 

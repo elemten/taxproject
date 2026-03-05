@@ -3,9 +3,9 @@ import { ServicePage } from "@/components/service-page";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Corporate Tax",
+  title: "Corporate Tax Services",
   description:
-    "Corporate tax support for Saskatchewan businesses — structured intake, careful review, and CRA-ready documentation.",
+    "Corporate tax services for Saskatoon and Saskatchewan businesses with structured intake, careful review, and CRA-ready documentation.",
   path: "/services/corporate-tax",
 });
 

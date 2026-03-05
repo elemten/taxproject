@@ -3,9 +3,9 @@ import { FAQPageClient } from "./client";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "FAQ",
+  title: "Tax Services FAQ",
   description:
-    "Frequently asked questions about tax services in Saskatoon, Saskatchewan — personal tax, corporate tax, and estate planning services.",
+    "Frequently asked questions about personal tax, corporate tax, and estate planning services in Saskatoon and Saskatchewan.",
   path: "/faq",
 });
 

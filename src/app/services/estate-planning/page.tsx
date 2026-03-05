@@ -3,9 +3,9 @@ import { ServicePage } from "@/components/service-page";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Estate Planning",
+  title: "Estate Planning Services",
   description:
-    "Estate planning and estate-related tax support in Saskatchewan — structured coordination and careful handling during a sensitive time.",
+    "Estate planning and estate-related tax services in Saskatoon and Saskatchewan with structured coordination and careful handling.",
   path: "/services/estate-planning",
 });
 

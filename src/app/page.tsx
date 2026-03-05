@@ -3,9 +3,9 @@ import HomePageClient from "./home-client";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "TrustEdge Tax Services",
+  title: "Tax Services in Saskatoon, Saskatchewan",
   description:
-    "Tax services in Saskatoon, Saskatchewan focused on personal tax, corporate tax, and estate planning services.",
+    "Trusted tax services in Saskatoon and across Saskatchewan for personal tax, corporate tax, and estate planning support.",
   path: "/",
 });
 

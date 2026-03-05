@@ -29,6 +29,22 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - `ADMIN_BASIC_AUTH_USER`
 - `ADMIN_BASIC_AUTH_PASS`
 
+### Admin credential rotation (Basic Auth)
+
+The admin area (`/admin`) and admin APIs (`/api/admin/*`) are protected by HTTP Basic Auth
+using `ADMIN_BASIC_AUTH_USER` and `ADMIN_BASIC_AUTH_PASS`.
+
+To change the admin password:
+
+1. Update `ADMIN_BASIC_AUTH_USER` and/or `ADMIN_BASIC_AUTH_PASS` in your deployment environment.
+2. Redeploy or restart the app so the new values are loaded.
+3. Re-open `/admin` and sign in with the new credentials.
+
+Troubleshooting:
+
+- If either admin env variable is missing, requests to `/admin` and `/api/admin/*` return `401 Authentication required`.
+- Browsers may cache Basic Auth credentials. If old credentials keep getting reused, test in a private window or clear saved site credentials.
+
 ### Optional environment variables
 
 - `RESEND_API_KEY`

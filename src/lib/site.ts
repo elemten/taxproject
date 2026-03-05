@@ -1,6 +1,6 @@
 export const site = {
   name: "TrustEdge Tax Services",
-  personName: "Archana Kumari",
+  personName: "TrustEdge Office",
   phone: "(306) 993-6603",
   phoneHref: "+13069936603",
   email: "trustedge8@outlook.com",

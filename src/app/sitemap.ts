@@ -3,7 +3,7 @@ import { getSiteUrl } from "@/lib/site-url";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = getSiteUrl();
-  const defaultLastModified = new Date("2026-02-06T00:00:00.000Z");
+  const generatedLastModified = new Date();
 
   const routes: Array<{
     path: `/${string}`;
@@ -23,7 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return routes.map(({ path, changeFrequency, priority }) => ({
     url: new URL(path, baseUrl).toString(),
-    lastModified: defaultLastModified,
+    lastModified: generatedLastModified,
     changeFrequency,
     priority,
   }));

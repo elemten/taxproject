@@ -3,9 +3,9 @@ import { AboutPageClient } from "./client";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "About",
+  title: "About TrustEdge Tax Services",
   description:
-    "TrustEdge Tax Services is a Saskatchewan-focused tax service built around a clear process and premium client experience.",
+    "Learn about TrustEdge Tax Services, a Saskatoon and Saskatchewan-focused office offering premium, checklist-driven tax support.",
   path: "/about",
 });
 

@@ -99,6 +99,13 @@ export default function Home() {
                       Tap to Book a Free Consultation
                     </Link>
                   </motion.div>
+                  <p className="text-xs text-muted-foreground">
+                    Looking for local guidance?{" "}
+                    <Link href="/saskatoon-tax-services" className="font-semibold text-brand hover:underline">
+                      Explore Saskatoon tax services
+                    </Link>
+                    .
+                  </p>
                 </motion.div>
               </div>
 
@@ -260,10 +267,10 @@ export default function Home() {
               transition={{ duration: 0.6, ease: easing.easeOutExpo }}
             >
               <h2 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
-                Meet <span className="text-brand">{site.personName}</span>
+                Meet the <span className="text-brand">{site.personName}</span>
               </h2>
               <p className="mt-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                Your point of contact at TrustEdge
+                Your local tax support team in Saskatoon
               </p>
             </motion.div>
 
@@ -276,11 +283,11 @@ export default function Home() {
             >
               <TeamCard
                 name={site.personName}
-                role="Tax Professional"
+                role="Client Care Team"
                 points={[
-                  "Client coordination and filing support",
-                  "Saskatchewan-focused workflow",
-                  "Clear checklist-driven process",
+                  "Office-based client coordination and filing support",
+                  "Saskatoon and Saskatchewan-focused workflow",
+                  "Clear checklist-driven process from intake to filing",
                 ]}
               />
             </motion.div>

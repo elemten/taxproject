@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { site } from "@/lib/site";
+import { getSiteUrl } from "@/lib/site-url";
 
 const defaultSocialImage = {
   url: "/images/site/hero-saskatoon.webp",
@@ -19,9 +20,11 @@ export function buildPageMetadata({
   description,
   path,
 }: BuildPageMetadataInput): Metadata {
+  const metadataBase = getSiteUrl();
   const socialTitle = `${title} | ${site.name}`;
 
   return {
+    metadataBase,
     title,
     description,
     alternates: { canonical: path },
