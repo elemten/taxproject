@@ -56,8 +56,22 @@ export function LeadForm({ title, subtitle, className }: LeadFormProps) {
       });
 
       if (!response.ok) {
-        const result = (await response.json().catch(() => null)) as { error?: string } | null;
-        throw new Error(result?.error ?? "Failed to submit form");
+        const result = (await response.json().catch(() => null)) as
+          | {
+              error?: string;
+              details?: {
+                fieldErrors?: Record<string, string[] | undefined>;
+              };
+            }
+          | null;
+
+        const firstFieldError = result?.details?.fieldErrors
+          ? Object.values(result.details.fieldErrors).find(
+              (messages): messages is string[] => Array.isArray(messages) && messages.length > 0,
+            )?.[0]
+          : undefined;
+
+        throw new Error(firstFieldError ?? result?.error ?? "Failed to submit form");
       }
 
       e.currentTarget.reset();

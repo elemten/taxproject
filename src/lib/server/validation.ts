@@ -1,6 +1,22 @@
 import { z } from "zod";
 
-const phoneRegex = /^[0-9+()\-\s]{7,32}$/;
+const phoneRegex = /^[0-9A-Za-z+().,\-\s#]+$/;
+const phoneExtensionRegex = /\b(?:ext\.?|x|extension)\s*\d{1,8}\b/i;
+
+function isValidPhone(value: string) {
+  const trimmed = value.trim();
+  if (trimmed.length < 7 || trimmed.length > 48) {
+    return false;
+  }
+
+  if (!phoneRegex.test(trimmed)) {
+    return false;
+  }
+
+  const extensionless = trimmed.replace(phoneExtensionRegex, "");
+  const digitCount = (extensionless.match(/\d/g) ?? []).length;
+  return digitCount >= 7 && digitCount <= 15;
+}
 
 const optionalString = (max = 500) =>
   z
@@ -13,7 +29,7 @@ const optionalString = (max = 500) =>
 export const contactSubmitSchema = z.object({
   fullName: z.string().trim().min(2).max(120),
   email: z.string().trim().email().max(320),
-  phone: z.string().trim().regex(phoneRegex, "Enter a valid phone number"),
+  phone: z.string().trim().refine(isValidPhone, "Enter a valid phone number"),
   serviceInterest: optionalString(120),
   message: z.string().trim().min(5).max(2000),
 });
@@ -22,7 +38,7 @@ export const bookingReserveSchema = z.object({
   slotId: z.string().uuid(),
   fullName: z.string().trim().min(2).max(120),
   email: z.string().trim().email().max(320),
-  phone: z.string().trim().regex(phoneRegex, "Enter a valid phone number"),
+  phone: z.string().trim().refine(isValidPhone, "Enter a valid phone number"),
   serviceInterest: optionalString(120),
   message: optionalString(2000),
 });
