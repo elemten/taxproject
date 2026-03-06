@@ -29,25 +29,27 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - `ADMIN_BASIC_AUTH_USER`
 - `ADMIN_BASIC_AUTH_PASS`
 
-### Admin credential rotation (Basic Auth)
+### Admin credential rotation
 
-The admin area (`/admin`) and admin APIs (`/api/admin/*`) are protected by HTTP Basic Auth
-using `ADMIN_BASIC_AUTH_USER` and `ADMIN_BASIC_AUTH_PASS`.
+The admin area (`/admin`) and admin APIs (`/api/admin/*`) use the credentials in
+`ADMIN_BASIC_AUTH_USER` and `ADMIN_BASIC_AUTH_PASS`.
+
+The dashboard now uses a custom login page at `/admin/login` and stores a secure admin session cookie after sign-in.
 
 To change the admin password:
 
 1. Update `ADMIN_BASIC_AUTH_USER` and/or `ADMIN_BASIC_AUTH_PASS` in your deployment environment.
 2. Redeploy or restart the app so the new values are loaded.
-3. Re-open `/admin` and sign in with the new credentials.
+3. Open `/admin/login` and sign in with the new credentials.
 
 Troubleshooting:
 
-- If either admin env variable is missing, requests to `/admin` and `/api/admin/*` return `401 Authentication required`.
-- Browsers may cache Basic Auth credentials. If old credentials keep getting reused, test in a private window or clear saved site credentials.
+- If either admin env variable is missing, sign-in will fail and protected admin routes will stay locked.
 
 ### Optional environment variables
 
 - `RESEND_API_KEY`
+- `RESEND_WEBHOOK_SECRET`
 - `NOTIFICATION_EMAIL_FROM`
 - `NOTIFICATION_EMAIL_TO`
 - `WHATSAPP_ACCESS_TOKEN`
@@ -69,6 +71,7 @@ Troubleshooting:
 ### Integration endpoints
 
 - WhatsApp webhook verify + ingest: `GET/POST /api/whatsapp/webhook`
+- Resend inbound webhook (forwards `info@trustedges.ca` mail to `NOTIFICATION_EMAIL_TO`): `POST /api/resend/inbound`
 - Background worker runner: `POST /api/internal/integration-jobs/run`
 
 For the worker runner, send either `Authorization: Bearer <INTERNAL_JOB_RUNNER_TOKEN>` or

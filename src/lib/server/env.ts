@@ -19,6 +19,7 @@ const envSchema = z.object({
   ADMIN_BASIC_AUTH_PASS: z.string().min(1),
   INTERNAL_JOB_RUNNER_TOKEN: optionalString(),
   RESEND_API_KEY: optionalString(),
+  RESEND_WEBHOOK_SECRET: optionalString(),
   NOTIFICATION_EMAIL_FROM: optionalEmail(),
   NOTIFICATION_EMAIL_TO: optionalEmail(),
   WHATSAPP_ACCESS_TOKEN: optionalString(),

@@ -3,7 +3,7 @@ export const site = {
   personName: "TrustEdge Office",
   phone: "(306) 993-6603",
   phoneHref: "+13069936603",
-  email: "trustedge8@outlook.com",
+  email: "info@trustedges.ca",
   locationShort: "Saskatoon, SK",
   province: "Saskatchewan",
   country: "Canada",

@@ -1,47 +1,50 @@
 import { NextRequest, NextResponse } from "next/server";
+import { adminSessionIsValid, getAdminSessionCookieName } from "@/lib/server/admin-session";
 
-function unauthorizedResponse() {
-  return new NextResponse("Authentication required", {
-    status: 401,
-    headers: {
-      "WWW-Authenticate": 'Basic realm="Admin Area"',
-      "Cache-Control": "no-store",
+function isAdminApiPath(pathname: string) {
+  return pathname.startsWith("/api/admin/");
+}
+
+function loginRedirect(request: NextRequest) {
+  const loginUrl = new URL("/admin/login", request.url);
+  return NextResponse.redirect(loginUrl);
+}
+
+function apiUnauthorizedResponse() {
+  return NextResponse.json(
+    {
+      error: "Authentication required",
     },
-  });
+    {
+      status: 401,
+      headers: {
+        "Cache-Control": "no-store",
+      },
+    },
+  );
 }
 
-function credentialsAreValid(authHeader: string | null) {
-  const expectedUser = process.env.ADMIN_BASIC_AUTH_USER;
-  const expectedPass = process.env.ADMIN_BASIC_AUTH_PASS;
+export async function proxy(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const sessionToken = request.cookies.get(getAdminSessionCookieName())?.value;
 
-  if (!expectedUser || !expectedPass) {
-    return false;
-  }
+  if (pathname === "/admin/login") {
+    if (await adminSessionIsValid(sessionToken)) {
+      return NextResponse.redirect(new URL("/admin", request.url));
+    }
 
-  if (!authHeader || !authHeader.startsWith("Basic ")) {
-    return false;
-  }
-
-  const base64 = authHeader.slice(6).trim();
-  const decoded = atob(base64);
-  const separatorIndex = decoded.indexOf(":");
-
-  if (separatorIndex <= 0) {
-    return false;
-  }
-
-  const user = decoded.slice(0, separatorIndex);
-  const pass = decoded.slice(separatorIndex + 1);
-
-  return user === expectedUser && pass === expectedPass;
-}
-
-export function proxy(request: NextRequest) {
-  if (credentialsAreValid(request.headers.get("authorization"))) {
     return NextResponse.next();
   }
 
-  return unauthorizedResponse();
+  if (pathname === "/api/admin/login") {
+    return NextResponse.next();
+  }
+
+  if (await adminSessionIsValid(sessionToken)) {
+    return NextResponse.next();
+  }
+
+  return isAdminApiPath(pathname) ? apiUnauthorizedResponse() : loginRedirect(request);
 }
 
 export const config = {
