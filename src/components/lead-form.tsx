@@ -36,8 +36,9 @@ export function LeadForm({ title, subtitle, className }: LeadFormProps) {
     e.preventDefault();
     setFormState("submitting");
     setErrorMessage("");
+    const formElement = e.currentTarget;
 
-    const formData = new FormData(e.currentTarget);
+    const formData = new FormData(formElement);
     const payload = {
       fullName: String(formData.get("fullName") ?? ""),
       phone: String(formData.get("phone") ?? ""),
@@ -74,7 +75,7 @@ export function LeadForm({ title, subtitle, className }: LeadFormProps) {
         throw new Error(firstFieldError ?? result?.error ?? "Failed to submit form");
       }
 
-      e.currentTarget.reset();
+      formElement.reset();
       setFormState("success");
     } catch (error) {
       setFormState("error");
