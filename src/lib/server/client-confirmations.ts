@@ -12,21 +12,21 @@ type BookingConfirmationInput = {
 };
 
 export async function sendClientBookingConfirmation(input: BookingConfirmationInput) {
-  if (!whatsappConfiguredForOutbound()) {
-    throw new Error("WhatsApp booking confirmation is not fully configured");
+  const slotLabel = formatSlotLabel(input.slotStart, input.timezone);
+  const tasks = [sendBookingConfirmationEmail(input, slotLabel)];
+
+  if (whatsappConfiguredForOutbound()) {
+    tasks.push(
+      sendWhatsAppBookingTemplate({
+        toPhone: input.phone,
+        clientName: input.fullName,
+        slotLabel,
+        zoomJoinUrl: input.zoomJoinUrl,
+      }),
+    );
   }
 
-  const slotLabel = formatSlotLabel(input.slotStart, input.timezone);
-
-  const results = await Promise.allSettled([
-    sendBookingConfirmationEmail(input, slotLabel),
-    sendWhatsAppBookingTemplate({
-      toPhone: input.phone,
-      clientName: input.fullName,
-      slotLabel,
-      zoomJoinUrl: input.zoomJoinUrl,
-    }),
-  ]);
+  const results = await Promise.allSettled(tasks);
 
   const failures = results
     .filter((result): result is PromiseRejectedResult => result.status === "rejected")
