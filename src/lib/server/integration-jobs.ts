@@ -36,51 +36,66 @@ const MAX_ATTEMPTS = 6;
 
 export async function processDueIntegrationJobs(limit = 20) {
   const supabase = getSupabaseServiceClient();
-  const nowIso = new Date().toISOString();
-
-  const { data: dueJobs, error } = await supabase
-    .from("integration_jobs")
-    .select("id, job_type, payload_json, attempts")
-    .eq("status", "pending")
-    .lte("next_attempt_at", nowIso)
-    .order("created_at", { ascending: true })
-    .limit(Math.max(1, Math.min(100, limit)));
-
-  if (error) {
-    throw new Error(`Failed to fetch integration jobs: ${error.message}`);
-  }
+  const maxJobs = Math.max(1, Math.min(100, limit));
 
   const summary = {
-    scanned: dueJobs?.length ?? 0,
+    scanned: 0,
     claimed: 0,
     succeeded: 0,
     retried: 0,
     failed: 0,
   };
 
-  for (const row of (dueJobs ?? []) as IntegrationJobRow[]) {
-    const job = await claimJob(row.id);
-    if (!job) {
-      continue;
+  while (summary.claimed < maxJobs) {
+    const remaining = maxJobs - summary.claimed;
+    const nowIso = new Date().toISOString();
+    const { data: dueJobs, error } = await supabase
+      .from("integration_jobs")
+      .select("id, job_type, payload_json, attempts")
+      .eq("status", "pending")
+      .lte("next_attempt_at", nowIso)
+      .order("created_at", { ascending: true })
+      .limit(remaining);
+
+    if (error) {
+      throw new Error(`Failed to fetch integration jobs: ${error.message}`);
     }
 
-    summary.claimed += 1;
+    const rows = (dueJobs ?? []) as IntegrationJobRow[];
+    summary.scanned += rows.length;
 
-    try {
-      await processOneJob(job);
-      await markJobSucceeded(job.id);
-      summary.succeeded += 1;
-    } catch (errorMessage) {
-      const errorText = errorMessage instanceof Error ? errorMessage.message : "Unknown job error";
-      const finalAttempt = job.attempts + 1 >= MAX_ATTEMPTS;
-      await markJobFailure(job, errorText, finalAttempt);
+    if (rows.length === 0) {
+      break;
+    }
 
-      if (finalAttempt) {
-        summary.failed += 1;
-      } else {
-        summary.retried += 1;
+    for (const row of rows) {
+      const job = await claimJob(row.id);
+      if (!job) {
+        continue;
       }
-    }
+
+      summary.claimed += 1;
+
+      try {
+        await processOneJob(job);
+        await markJobSucceeded(job.id);
+        summary.succeeded += 1;
+      } catch (errorMessage) {
+        const errorText = errorMessage instanceof Error ? errorMessage.message : "Unknown job error";
+        const finalAttempt = job.attempts + 1 >= MAX_ATTEMPTS;
+        await markJobFailure(job, errorText, finalAttempt);
+
+        if (finalAttempt) {
+          summary.failed += 1;
+        } else {
+          summary.retried += 1;
+        }
+      }
+
+      if (summary.claimed >= maxJobs) {
+        break;
+      }
+    } 
   }
 
   return summary;
