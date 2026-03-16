@@ -34,10 +34,6 @@ async function sendNotifications(topic: NotificationTopic, payload: Notification
     tasks.push(sendEmail(topic, payload));
   }
 
-  if (env.WHATSAPP_ACCESS_TOKEN && env.WHATSAPP_PHONE_NUMBER_ID && env.WHATSAPP_BUSINESS_NUMBER) {
-    tasks.push(sendWhatsApp(topic, payload));
-  }
-
   if (tasks.length === 0) {
     return { attempted: 0, delivered: 0, failed: 0 };
   }
@@ -97,42 +93,6 @@ async function sendEmail(topic: NotificationTopic, payload: NotificationPayload)
   if (!response.ok) {
     const body = await response.text();
     throw new Error(`Resend failed (${response.status}): ${body}`);
-  }
-}
-
-async function sendWhatsApp(topic: NotificationTopic, payload: NotificationPayload) {
-  const env = getEnv();
-
-  if (!env.WHATSAPP_ACCESS_TOKEN || !env.WHATSAPP_PHONE_NUMBER_ID || !env.WHATSAPP_BUSINESS_NUMBER) {
-    throw new Error("WhatsApp environment variables are not fully configured");
-  }
-
-  const text = topic === "new_booking"
-    ? `New booking from ${payload.fullName}. Slot: ${payload.slotStart ?? "n/a"}. Phone: ${payload.phone}. Email: ${payload.email}.`
-    : `New lead from ${payload.fullName}. Phone: ${payload.phone}. Email: ${payload.email}.`;
-
-  const response = await fetchWithTimeout(
-    `https://graph.facebook.com/v21.0/${env.WHATSAPP_PHONE_NUMBER_ID}/messages`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${env.WHATSAPP_ACCESS_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        messaging_product: "whatsapp",
-        to: env.WHATSAPP_BUSINESS_NUMBER,
-        type: "text",
-        text: {
-          body: text,
-        },
-      }),
-    },
-  );
-
-  if (!response.ok) {
-    const body = await response.text();
-    throw new Error(`WhatsApp send failed (${response.status}): ${body}`);
   }
 }
 
