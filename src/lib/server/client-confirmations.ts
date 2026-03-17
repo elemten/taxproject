@@ -1,5 +1,4 @@
 import { getEnv } from "@/lib/server/env";
-import { sendWhatsAppBookingTemplate, whatsappConfiguredForOutbound } from "@/lib/server/integrations/whatsapp";
 
 type BookingConfirmationInput = {
   fullName: string;
@@ -13,28 +12,7 @@ type BookingConfirmationInput = {
 
 export async function sendClientBookingConfirmation(input: BookingConfirmationInput) {
   const slotLabel = formatSlotLabel(input.slotStart, input.timezone);
-  const tasks = [sendBookingConfirmationEmail(input, slotLabel)];
-
-  if (whatsappConfiguredForOutbound()) {
-    tasks.push(
-      sendWhatsAppBookingTemplate({
-        toPhone: input.phone,
-        clientName: input.fullName,
-        slotLabel,
-        zoomJoinUrl: input.zoomJoinUrl,
-      }),
-    );
-  }
-
-  const results = await Promise.allSettled(tasks);
-
-  const failures = results
-    .filter((result): result is PromiseRejectedResult => result.status === "rejected")
-    .map((result) => (result.reason instanceof Error ? result.reason.message : "Unknown confirmation error"));
-
-  if (failures.length > 0) {
-    throw new Error(failures.join(" | "));
-  }
+  await sendBookingConfirmationEmail(input, slotLabel);
 }
 
 async function sendBookingConfirmationEmail(input: BookingConfirmationInput, slotLabel: string) {

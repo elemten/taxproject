@@ -3,8 +3,7 @@ import { getEnv } from "@/lib/server/env";
 import { getRetryDelaySeconds } from "@/lib/server/retry";
 import { normalizePhoneKey } from "@/lib/server/phone";
 import { createZoomMeeting, zoomConfigured } from "@/lib/server/integrations/zoom";
-import { ensureSupabaseFolder, supabaseStorageConfigured, uploadSupabaseFile } from "@/lib/server/integrations/supabase-storage";
-import { downloadWhatsAppMedia, getWhatsAppMediaMetadata } from "@/lib/server/integrations/whatsapp";
+import { ensureSupabaseFolder, supabaseStorageConfigured } from "@/lib/server/integrations/supabase-storage";
 import { sendClientBookingConfirmation } from "@/lib/server/client-confirmations";
 import { enqueueIntegrationJob, type IntegrationJobType } from "@/lib/server/integration-job-queue";
 
@@ -338,75 +337,10 @@ async function handleEnsureFolder(payload: Record<string, unknown>) {
 
 async function handleProcessWhatsAppMedia(payload: Record<string, unknown>) {
   const messageId = asString(payload.messageId);
-  const mediaId = asString(payload.mediaId);
-  const mediaType = asString(payload.mediaType);
-  const fromPhone = asString(payload.fromPhone);
-  const fallbackFileName = asString(payload.fileName);
-  const fallbackMimeType = asString(payload.mimeType);
-
-  if (!messageId || !mediaId || !mediaType || !fromPhone) {
+  if (!messageId) {
     throw new Error("process_whatsapp_media payload is incomplete");
   }
-
-  if (!supabaseStorageConfigured()) {
-    throw new Error("Supabase Storage integration is not configured");
-  }
-
-  const senderPhoneKey = normalizePhoneKey(fromPhone);
-  if (!senderPhoneKey) {
-    throw new Error("Unable to normalize sender phone number");
-  }
-
-  const supabase = getSupabaseServiceClient();
-
-  const { data: existing } = await supabase
-    .from("ingested_documents")
-    .select("id")
-    .eq("message_id", messageId)
-    .maybeSingle();
-
-  if (existing?.id) {
-    return;
-  }
-
-  const externalFolder = await resolveExternalFolderForPhone(senderPhoneKey, fromPhone);
-  const mediaMetadata = await getWhatsAppMediaMetadata(mediaId);
-  const mediaDownload = await downloadWhatsAppMedia(mediaMetadata.url);
-
-  const mimeType = mediaMetadata.mime_type ?? fallbackMimeType ?? mediaDownload.mimeType;
-  const fileName =
-    fallbackFileName ||
-    `${mediaType}-${messageId}${extensionFromMime(mimeType)}`;
-
-  const uploaded = await uploadSupabaseFile({
-    folderPath: externalFolder.provider_folder_id,
-    fileName,
-    mimeType,
-    data: mediaDownload.data,
-  });
-
-  const { error } = await supabase.from("ingested_documents").insert({
-    message_id: messageId,
-    media_id: mediaId,
-    sender_phone: fromPhone,
-    sender_phone_key: senderPhoneKey,
-    media_type: mediaType,
-    mime_type: mimeType,
-    file_name: fileName,
-    size_bytes: mediaMetadata.file_size ?? mediaDownload.data.byteLength,
-    provider: "whatsapp",
-    external_folder_id: externalFolder.id,
-    provider_file_id: uploaded.id,
-    status: "stored",
-    raw_json: {
-      whatsappMedia: mediaMetadata,
-      upload: uploaded,
-    },
-  });
-
-  if (error) {
-    throw new Error(`Failed to save ingested document row: ${error.message}`);
-  }
+  return;
 }
 
 async function ensureClientFolder(clientId: string) {
@@ -535,41 +469,6 @@ async function ensureProspectFolder(phoneKey: string) {
   return inserted;
 }
 
-async function resolveExternalFolderForPhone(senderPhoneKey: string, senderPhone: string) {
-  const supabase = getSupabaseServiceClient();
-
-  const { data: clients, error } = await supabase
-    .from("clients")
-    .select("id, phone")
-    .eq("client_status", "active")
-    .limit(1000);
-
-  if (error) {
-    throw new Error(`Failed to fetch clients for phone match: ${error.message}`);
-  }
-
-  const matchedClient = (clients ?? []).find((client) => normalizePhoneKey(client.phone ?? "") === senderPhoneKey);
-  if (matchedClient?.id) {
-    return ensureClientFolder(matchedClient.id);
-  }
-
-  await handleEnsureFolder({ phoneKey: senderPhoneKey, senderPhone });
-
-  const { data: prospectFolder, error: folderError } = await supabase
-    .from("external_folders")
-    .select("id, provider_folder_id, path_label")
-    .eq("entity_type", "prospect_phone")
-    .eq("phone_key", senderPhoneKey)
-    .eq("is_active", true)
-    .single();
-
-  if (folderError || !prospectFolder) {
-    throw new Error(`Failed to resolve prospect folder for phone ${senderPhoneKey}`);
-  }
-
-  return prospectFolder;
-}
-
 async function getBookingDetails(bookingId: string): Promise<BookingDetails> {
   const supabase = getSupabaseServiceClient();
   const { data, error } = await supabase
@@ -636,18 +535,4 @@ function asString(value: unknown) {
 
 function trimSlashes(value: string) {
   return value.replace(/^\/+|\/+$/g, "");
-}
-
-function extensionFromMime(mimeType: string) {
-  const normalized = mimeType.toLowerCase();
-
-  if (normalized.includes("pdf")) return ".pdf";
-  if (normalized.includes("jpeg")) return ".jpg";
-  if (normalized.includes("png")) return ".png";
-  if (normalized.includes("gif")) return ".gif";
-  if (normalized.includes("webp")) return ".webp";
-  if (normalized.includes("mp4")) return ".mp4";
-  if (normalized.includes("mpeg")) return ".mp3";
-  if (normalized.includes("ogg")) return ".ogg";
-  return "";
 }
